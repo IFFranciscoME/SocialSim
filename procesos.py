@@ -8,6 +8,7 @@
 # .. .................................................................................... .. #
 
 import numpy as np
+import simulaciones as sm
 
 # Este es un caso particular, se tiene que tener un codigo que lo generalice
 m_matriz_c = np.array([[0, 0, 0],
@@ -27,3 +28,6 @@ sum(v_matrix_prob)
 # referencias
 # https://docs.scipy.org/doc/scipy/reference/tutorial/stats/discrete.html
 # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.stats.beta.html
+
+valor = sm.f_simular(param_dist='beta', param_pars={'param1': 1.5, 'param2': 4},
+                     param_num=1, param_redondeo=2)

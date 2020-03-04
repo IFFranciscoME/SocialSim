@@ -10,14 +10,15 @@
 import numpy as np
 
 
-def f_simular(param_dist, param_pars, param_num, param_redondeo):
+def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     """
     Parameters
     ----------
     param_dist : str :  nombre de la distribucion
     param_pars : list : parametros de la distribucion
     param_num : int : cantidad de muestras a simular
-    param_redondeo : decimal para redondeo del resultado final
+    param_redondeo : int : decimal para redondeo del resultado final
+    param_rango : list : lista con dos elementos del rango, el inicial y el final.
 
     Returns
     -------
@@ -27,10 +28,12 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo):
     -------
     param_dist = 'beta'
     param_pars = {'param1': 1.5, 'param2': 4}
-    param_num = 10
+    param_num = 1
     param_redondeo = 2
+    param_rango = [0, 0.10]
 
     """
+
     if param_dist == "beta":          # -- Beta
         return np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
                                            size=param_num).round(param_redondeo)

@@ -1,4 +1,3 @@
-
 # .. .................................................................................... .. #
 # .. Proyecto: SocialSim - Plataforma de simulacion de proyectos socioproductivos         .. #
 # .. Archivo: simulaciones.py - procesos de estadistica y simulacion                      .. #
@@ -8,6 +7,8 @@
 # .. .................................................................................... .. #
 
 import numpy as np
+import scipy.stats as st
+import itertools
 
 
 def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
@@ -19,11 +20,9 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     param_num : int : cantidad de muestras a simular
     param_redondeo : int : decimal para redondeo del resultado final
     param_rango : list : lista con dos elementos del rango, el inicial y el final.
-
     Returns
     -------
     np.random
-
     Debugging
     -------
     param_dist = 'beta'
@@ -31,19 +30,116 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     param_num = 1
     param_redondeo = 2
     param_rango = [0, 0.10]
-
     """
 
-    if param_dist == "beta":          # -- Beta
-        return np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
-                                           size=param_num).round(param_redondeo)
-    elif param_dist == "normal":      # -- Normal
+    if param_dist == "beta":  # -- Beta
+        return param_rango[0] + np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
+                                               size=param_num).round(param_redondeo) * (param_rango[1] - param_rango[0])
+    elif param_dist == "normal":  # -- Normal
         return np.random.normal(loc=param_pars['param1'], scale=param_pars['param2'],
-                                             size=param_num).round(param_redondeo)
+                                size=param_num).round(param_redondeo)
     elif param_dist == "triangular":  # -- Triangular
         return np.random.triangular(left=param_pars['param1'], mode=param_pars['param2'],
                                     right=param_pars['param3'],
                                     size=param_num).round(param_redondeo)
-    elif param_dist == "uniforme":    # -- Uniforme
+    elif param_dist == "uniforme":  # -- Uniforme
         return np.random.uniform(low=param_pars['param1'], high=param_pars['param2'],
                                  size=param_num)
+
+
+# Funcion que calcula la probabilidad siguiendo una distribucion dada discretisandola
+
+def f_prob_discr(param_dist, param_pars_dist, param_num):
+    """
+    Parameters
+    ----------
+    param_dist : str :  nombre de la distribucion
+    param_pars : list : parametros de la distribucion
+    param_num : int : cantidad de probabilidades requeridas
+
+    Returns
+    -------
+    v_prob_acum : np.ndarray : probabilidades que siguen tal distribución
+
+    Debugging
+    -------
+    param_dist = 'beta'
+    param_pars = [1.5, 4]
+    param_num = 16
+    """
+    dist = getattr(st, param_dist)
+    x = np.linspace(0, 1, param_num + 1)
+    v_prob_acum = dist.cdf(x, *param_pars_dist[:-2], loc=param_pars_dist[-2], scale=param_pars_dist[-1])
+    v_prob = np.diff(v_prob_acum)
+    if sum(v_prob) == 1:
+        return v_prob_acum
+    else:
+        print('ERROR de probabilidades')
+        return v_prob_acum
+
+
+#
+def f_prob_combinaciones(param_n_product, param_par_dist_comb):
+    """
+    Parameters
+    ----------
+    param_n_product : int :  numero de productos que se venderian
+    param_par_dist_comb: list : parametros de distribucion beta [a, b, loc, scale]
+
+    Returns
+    -------
+    m_bin_comb : list : matriz de posibles combinaciones binarias
+    v_prob_comb : np.ndarray : probabilidades de cada combinacion
+
+    Debugging
+    -------
+    param_n_product = 4
+    param_par_dist_comb = [1.5, 2, 0, 1]
+    """
+
+    # Se propone distribucion beta para las combinaciones
+    dist_comb = 'beta'
+
+    # Numero de productos
+    k_n = param_n_product
+
+    # Crear matriz binaria de posibles compras
+    m_bin_comb = list(map(list, itertools.product([0, 1], repeat=k_n)))
+
+    # Numero de combinaciones posibles 2^n
+    k_l = len(m_bin_comb)
+
+    # Vector de probabilidades acumuladas | no tomar el primero, es cero
+    v_prob_comb = f_prob_discr(dist_comb, param_par_dist_comb, k_l)[1:]
+
+    return m_bin_comb, v_prob_comb
+
+
+#
+def f_prob_cantidad(param_n_max_product, param_par_dist_cant):
+    """
+    Parameters
+    ----------
+    param_n_max_product : int :  numero maximo de productos que se venderian
+    param_par_dist_ventas: list : parametros de distribucion beta [a, b, loc, scale]
+
+    Returns
+    -------
+    v_prob_comb : np.ndarray : probabilidades que siguen tal distribución
+
+    Debugging
+    -------
+    param_n_max_product = 3
+    param_par_dist_cant = [.8, 0.3, 0.5]
+    """
+
+    # Se propone distribucion beta para las combinaciones
+    dist_cant = 'expon'
+
+    # Numero maximo de productos que se comprarian
+    k_nm_p = param_n_max_product
+
+    # Vector de probabilidades acumuladas | no tomar el primero, es cero
+    v_prob_cant = f_prob_discr(dist_cant, param_par_dist_cant, k_nm_p)[1:]
+
+    return v_prob_cant

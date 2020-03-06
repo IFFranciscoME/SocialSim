@@ -78,11 +78,11 @@ def f_visitas_mes(param_beta, param_segmento, param_publicidad, param_cpm, param
 
 
 # Funcion que, a partir de la funcion de personas que visitan por mes, te da una serie de tiempo de n periodos
-def f_serie_tiempo_visitan(param_n_meses, param_beta, param_segmento, param_publicidad, param_cpm):
+def f_serie_tiempo_visitan(param_n_periodos, param_beta, param_segmento, param_publicidad, param_cpm):
     """
     Parameters
     ----------
-    param_n_meses : int : numero de meses a simular
+    param_n_periodos : int : numero de meses a simular
     param_beta : list : lista de listas de los parametros para la funcion de ventas por mes
     param_segmento : int : numero de personas por segmentos
     param_publicidad : int : cantidad presupuestado para la publicidad
@@ -100,9 +100,9 @@ def f_serie_tiempo_visitan(param_n_meses, param_beta, param_segmento, param_publ
     param_cpm = 10
 
     """
-    datos_visita = np.zeros((3, param_n_meses + 1))
+    datos_visita = np.zeros((3, param_n_periodos + 1))
 
-    for i in range(param_n_meses):
+    for i in range(param_n_periodos):
         ni_A_visitan, ni_R_compra, regresan = f_visitas_mes(param_beta, param_segmento,
                                                             param_publicidad, param_cpm, datos_visita[0][i])
         datos_visita[0][i+1] = ni_A_visitan
@@ -204,20 +204,43 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, v_preci
     param_v_precios = [10, 20]
 
     """
-    # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron
-    v_mes = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn) for i in range(param_visita)]
-    return v_mes
+    # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
+    v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn) for i in range(param_visita)]
+    return v_periodo
 
 
 # Funcion de ventas totales por personas y periodo de tiempo
-def f_ventas_total():
-    # Matriz [vistan, compran, regresan]
-    m_visitan = f_serie_tiempo_visitan(n_mes, param_beta, dat.segmento_ctes_A, dat.publicidad_A, dat.cpm_ctes_A)
+def f_ventas_total(n_periodo, param_beta, param_segmento, param_publicidad, param_cpm,
+                           m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn):
+    """
+    Parameters
+    ----------
+    param_n_periodo : int : numero de meses a simular
+    param_beta : list : lista de listas de los parametros para la funcion de ventas por mes
+    param_segmento : int : numero de personas por segmentos
+    param_publicidad : int : cantidad presupuestado para la publicidad
+    param_cpm : int : datos del precio por publicidad
 
-    ventas_totales = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb, v_prob_cant,
-                                       v_precios, k_mn) for i in range(1, 18)]
+    param_visita : int : personas que asisten y compran en el periodo
+    m_bin_comb : list : matriz de posibles combinaciones binarias
+    v_prob_comb : list : vector probabilidades de cada combinacion posible de combinaciones de productos
+    v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
+    v_precios : list : vector de precios por producto
+    k_mn : int : numero maximo de productos
 
-    return 0
+    """
+    # Matriz que regresa las personas que van [vistan, compran, regresan] durante n_periodos
+    m_visitan = f_serie_tiempo_visitan(n_periodo, param_beta, param_segmento, param_publicidad, param_cpm)
+
+    # Matriz de ventas por persona y periodo
+    m_ventas_totales_persona = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb, v_prob_cant,
+                                       v_precios, k_mn) for i in range(1, n_periodo)]
+    # Sumar todas las ventas del periodo
+    ventas_totales = [sum(m_ventas_totales_persona[i]) for i in range(len(m_ventas_totales_persona))]
+    return ventas_totales
+
+
+# param_visita, m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn):
 
 # ---------
 # DATOS
@@ -247,20 +270,16 @@ m_bin_comb, v_prob_comb = sim.f_prob_combinaciones(k_n, param_comb)
 # Cantidad
 v_prob_cant = sim.f_prob_cantidad(k_mn, param_cant)
 
-# Matriz [vistan, compran, regresan]
-m_visitan = f_serie_tiempo_visitan(n_mes, param_beta, dat.segmento_ctes_A, dat.publicidad_A, dat.cpm_ctes_A)
+# Numero de simulaciones
+n_sim = 50
+# Funcion de ventas totales para segmento A
+ventas_totales_p = [f_ventas_total(n_mes, param_beta, dat.segmento_ctes_A, dat.publicidad_A, dat.cpm_ctes_A,
+                                  m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn) for i in range(n_sim)]
 
-# Utilizar funcion de ventas totales por persona y periodo
-ventas_totales = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb, v_prob_cant,
-                               v_precios, k_mn) for i in range(1, n_mes )]
+t = np.arange(len(ventas_totales_p[0]))
 
-# Sumar todas las ventas por periodo
-v_t = [sum(ventas_totales[i]) for i in range(len(ventas_totales))]
-print(len(v_t))
-
-plt.plot(np.arange(len(v_t)), v_t)
+# Graficas
+fig = plt.figure()
+ax = plt.axes()
+[ax.plot(t, ventas_totales_p[i]) for i in range(n_sim)]
 plt.show()
-
-
-
-

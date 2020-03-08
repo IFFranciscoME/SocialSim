@@ -17,10 +17,13 @@ import itertools
 
 # Funcion que da el numero de visitas y el numero de personas que compraron al mes
 def f_visitas_mes(param_beta, param_segmento, param_publicidad, param_cpm, param_ni_t_visitan):
+
     """
     Parameters
     ----------
-    param_beta : list : matriz de 4x4 de los parametros de distribuciones beta [a, b, lim_inf, lim_sup]
+    param_ni_t_visitan
+    param_beta : list : matriz de 4x4 de los parametros de distribuciones beta
+                        [a, b, lim_inf, lim_sup]
     param_segmento : int :  cantidad de personas del segmento
     param_publicidad : int : cantidad de dinero destinado a la publicidad
     param_cpm : int : cantidad del costo por publicidad
@@ -41,7 +44,7 @@ def f_visitas_mes(param_beta, param_segmento, param_publicidad, param_cpm, param
     """
 
     # Mercado accesible (población)
-    K_seg = param_segmento
+    # k_seg = param_segmento
     # Presupuesto para publicidad
     k_pre_pub = param_publicidad
     # Precio por publicidad en Facebook
@@ -51,34 +54,41 @@ def f_visitas_mes(param_beta, param_segmento, param_publicidad, param_cpm, param
 
     # Simulaciones
     k = [(sim.f_simular("beta", {'param1': param_beta[i][0], 'param2': param_beta[i][1]},
-                    1, 2, [param_beta[i][2], param_beta[i][3]])) for i in range(len(param_beta))]
+                        1, 2, [param_beta[i][2], param_beta[i][3]]))
+         for i in range(len(param_beta))]
 
     # Simulacion de cuantos clicks
     k_f1_clicks = float(k[0])
     # Personas que dieron click
-    ni_A_clicks = ni_mapc * k_f1_clicks
+    ni_a_clicks = ni_mapc * k_f1_clicks
 
     # Simulacion de cuantos visitan el lugar
     k_f2_visitan = float(k[1])
     # Personas que visitan
-    ni_A_visitan = ni_A_clicks * k_f2_visitan
+    ni_a_visitan = ni_a_clicks * k_f2_visitan
 
     # Simulacion de cuantos regresan
     k_f3_regresan = float(k[2])
     # Personas que regresan
-    ni_R_regresan = param_ni_t_visitan * k_f3_regresan
-    ni_R_visitan = ni_R_regresan + ni_A_visitan
+    ni_r_regresan = param_ni_t_visitan * k_f3_regresan
+    ni_r_visitan = ni_r_regresan + ni_a_visitan
 
     # Simulacion personas que compran
     k_f4_compran = float(k[3])
     # Personas que terminan comprando
-    ni_R_compran = ni_R_visitan * k_f4_compran
+    ni_r_compran = ni_r_visitan * k_f4_compran
 
-    return int(ni_A_visitan), int(ni_R_compran), int(ni_R_regresan)
+    return int(ni_a_visitan), int(ni_r_compran), int(ni_r_regresan)
 
 
-# Funcion que, a partir de la funcion de personas que visitan por mes, te da una serie de tiempo de n periodos
-def f_serie_tiempo_visitan(param_n_periodos, param_beta, param_segmento, param_publicidad, param_cpm):
+# -- ------------------------------------------------------------------------- FUNCION:   -- #
+# -- --------------------------------------------------------------------------------------- #
+# --
+
+def f_serie_tiempo_visitan(param_n_periodos, param_beta, param_segmento, param_publicidad,
+                           param_cpm):
+    # que, a partir de la funcion de personas que visitan por mes,
+    # te da una serie de tiempo de n periodos
     """
     Parameters
     ----------
@@ -103,10 +113,11 @@ def f_serie_tiempo_visitan(param_n_periodos, param_beta, param_segmento, param_p
     datos_visita = np.zeros((3, param_n_periodos + 1))
 
     for i in range(param_n_periodos):
-        ni_A_visitan, ni_R_compra, regresan = f_visitas_mes(param_beta, param_segmento,
-                                                            param_publicidad, param_cpm, datos_visita[0][i])
-        datos_visita[0][i+1] = ni_A_visitan
-        datos_visita[1][i+1] = ni_R_compra
+        ni_a_visitan, ni_r_compra, regresan = f_visitas_mes(param_beta, param_segmento,
+                                                            param_publicidad, param_cpm,
+                                                            datos_visita[0][i])
+        datos_visita[0][i+1] = ni_a_visitan
+        datos_visita[1][i+1] = ni_r_compra
         datos_visita[2][i+1] = regresan
 
     return datos_visita
@@ -177,17 +188,19 @@ def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, par
     v_venta_persona = cantidad*np.array(combinacion)*np.array(param_v_precios)
     k_ingreso_total = sum(v_venta_persona)
 
-    #print(cantidad, combinacion, param_v_precios)
+    # print(cantidad, combinacion, param_v_precios)
+
     return k_ingreso_total
 
 
 def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn):
+
     """
     Parameters
     ----------
     param_visita : int : personas que asisten y compran en el periodo
     m_bin_comb : list : matriz de posibles combinaciones binarias
-    v_prob_comb : list : vector probabilidades de cada combinacion posible de combinaciones de productos
+    v_prob_comb : list : vector probabilidades de cada combinacion posible de productos
     v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
     v_precios : list : vector de precios por producto
     k_mn : int : numero maximo de productos
@@ -204,8 +217,12 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, v_preci
     param_v_precios = [10, 20]
 
     """
-    # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
-    v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn) for i in range(param_visita)]
+
+    # Se simulan las ventas por personas, dependiendo de el
+    # numero de personas que visitaron y compraron (mes)
+
+    v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn)
+                 for i in range(param_visita)]
     return v_periodo
 
 
@@ -223,20 +240,24 @@ def f_ventas_total(n_periodo, param_beta, param_segmento, param_publicidad, para
 
     param_visita : int : personas que asisten y compran en el periodo
     m_bin_comb : list : matriz de posibles combinaciones binarias
-    v_prob_comb : list : vector probabilidades de cada combinacion posible de combinaciones de productos
+    v_prob_comb : list : vector probabilidades de cada combinacion posible de productos
     v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
     v_precios : list : vector de precios por producto
     k_mn : int : numero maximo de productos
 
     """
+
     # Matriz que regresa las personas que van [vistan, compran, regresan] durante n_periodos
     m_visitan = f_serie_tiempo_visitan(n_periodo, param_beta, param_segmento, param_publicidad, param_cpm)
 
     # Matriz de ventas por persona y periodo
-    m_ventas_totales_persona = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb, v_prob_cant,
-                                       v_precios, k_mn) for i in range(1, n_periodo)]
+    m_ventas_totales_persona = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb,
+                                                 v_prob_cant, v_precios, k_mn)
+                                for i in range(1, n_periodo)]
+
     # Sumar todas las ventas del periodo
-    ventas_totales = [sum(m_ventas_totales_persona[i]) for i in range(len(m_ventas_totales_persona))]
+    ventas_totales = [sum(m_ventas_totales_persona[i])
+                      for i in range(len(m_ventas_totales_persona))]
     return ventas_totales
 
 
@@ -258,11 +279,13 @@ param_cant = [ 0.31, 0.01]
 # Numero de simulaciones por periodos
 n_mes = 18
 
-# Matriz de parametros para simulaciones con distribucion beta [a, b, limite inferior, limite superior]
-param_beta = [[1.5, 4, 0, 0.1],      # Parametros beta: simulacion de clicks
-              [4, 2, 0, 0.2],        # Parametros beta: simulacion de visitas
-              [1, 2, 0, 0.05],       # Parametros beta: simulacion de regresos
-              [4.5, 1.5, 0.2, 0.55]] # Parametros beta: simulacion de compras
+# Matriz de parametros para simulaciones con distribucion beta
+# [a, b, limite inferior, limite superior]
+
+param_beta = [[1.5, 4, 0, 0.1],       # Parametros beta: simulacion de clicks
+              [4, 2, 0, 0.2],         # Parametros beta: simulacion de visitas
+              [1, 2, 0, 0.05],        # Parametros beta: simulacion de regresos
+              [4.5, 1.5, 0.2, 0.55]]  # Parametros beta: simulacion de compras
 
 # Combinaciones
 m_bin_comb, v_prob_comb = sim.f_prob_combinaciones(k_n, param_comb)
@@ -273,8 +296,9 @@ v_prob_cant = sim.f_prob_cantidad(k_mn, param_cant)
 # Numero de simulaciones
 n_sim = 50
 # Funcion de ventas totales para segmento A
-ventas_totales_p = [f_ventas_total(n_mes, param_beta, dat.segmento_ctes_A, dat.publicidad_A, dat.cpm_ctes_A,
-                                  m_bin_comb, v_prob_comb, v_prob_cant, v_precios, k_mn) for i in range(n_sim)]
+ventas_totales_p = [f_ventas_total(n_mes, param_beta, dat.segmento_ctes_A, dat.publicidad_A,
+                                   dat.cpm_ctes_A, m_bin_comb, v_prob_comb, v_prob_cant,
+                                   v_precios, k_mn) for i in range(n_sim)]
 
 t = np.arange(len(ventas_totales_p[0]))
 

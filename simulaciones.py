@@ -45,6 +45,9 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     elif param_dist == "uniforme":  # -- Uniforme
         return np.random.uniform(low=param_pars['param1'], high=param_pars['param2'],
                                  size=param_num)
+    elif param_dist == "binomial":  # -- Binomial
+        return np.random.binomial(n=param_pars['param1'], p=param_pars['param2'],
+                                  size=param_num).round(param_redondeo)
 
 
 # Funcion que calcula la probabilidad siguiendo una distribucion dada discretisandola
@@ -142,3 +145,27 @@ def f_prob_cantidad(param_n_max_product, param_dist, param_par_dist_cant):
     v_prob_cant = f_prob_discr(dist_cant, param_par_dist_cant, k_nm_p)[1:]
 
     return v_prob_cant
+
+
+def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
+    """
+    Parameters
+    ----------
+    param_vectorprob : list : vector con las probabilidades
+    param_seg: int : numero de asistentes por sector
+    Returns
+    -------
+    v_cant_acom : list : cantidad de acompañantes por sector
+
+    Debugging
+    -------
+    param_vectorprob = [.2, .8, 1]
+    param_seg= [342]
+
+    """
+    v_cant_acom = []
+    for i in range(param_seg):
+        r = np.random.random()
+        v_cant_acom.append(len(np.where(param_v_sector_acom_prob < r)[0]) + param_ajuste)
+
+    return sum(v_cant_acom)

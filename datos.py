@@ -40,6 +40,7 @@ k_plantas = len(v_plantas_n)
 # Maxima cantidad que se estaria dispuesto a comprar
 k_max_prod = 3
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Parametros
 
 # Parametros para distribucion beta, para las distribuciones de [clicks] visita, regresa, compra
@@ -51,5 +52,40 @@ param_comb = [1.5, 2, 0, 1]
 
 # Parametros para la maxima cantidad de productos (distribucion exponencial)
 param_cant = [0.31, 0.03]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Acompañantes
+
+# Segmento A
+min_acomp_A = 2
+max_acomp_A = 5
+n_acomp_A = (max_acomp_A - min_acomp_A) + 1
+param_acomp_A = [1.5, 2.5, 0, 1]
+
+# Segmento B
+min_acomp_B = 1
+max_acomp_B = 3
+n_acomp_B = (max_acomp_B - min_acomp_B) + 1
+param_acomp_B = [1.5, 3.5, 0, 1]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Baño
+
+# Porcentaje del total de personas que visitarian que entrarian al baño
+porcentaje_baño = 0.56
+# Costo por insumo de bañor
+baño_insumo_c = 1
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Talleres
+
+# Porcentaje que asistirian por segmento
+porcentaje_taller_A = 0.15
+porcentaje_taller_C = 0.15
+taller_insumo_c = 10
+taller_fijo_c = 100
+
+
+
 
 

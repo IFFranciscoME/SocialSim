@@ -114,6 +114,59 @@ ing_ut_ven_cos_18 = pr.f_ventas_total(t, n_canales, dat.param_beta, [p_canal_fac
 
 print(len(ing_ut_ven_cos_18))
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Funcion para vector de probabilidades de acompañantes del sector A
+
+''' Parametros: 
+        Numero de acompañantes del sector
+        Distribucion que seguiria las diferentes numero de acompañantes
+        Parametros para la distribucion de los acompañantes'''
+
+param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.param_acomp_A)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Funcion para los acompañantes del sector en un periodo
+
+''' Parametros: 
+        Numero de acompañantes del sector
+        Distribucion que seguiria las diferentes numero de acompañantes
+        Parametros para la distribucion de los acompañantes'''
+
+acompañ_A = sim.f_acompañantes_periodo(param_v_sector_A_prob_acom, int(datos_visita[0][0]), dat.min_acomp_A)
+#print(acompañ_A)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Funcion para la cantidad de personas que utilizarian el baño
+
+''' Parametros: 
+        Porcentaje que usaría
+        Personas del segmento
+        Personas que acompañan a las personas del segmento'''
+
+personas_baños = pr.f_prob_binomial(dat.porcentaje_baño, int(datos_visita[0][0]), acompañ_A)
+#print(personas_baños)
+costo_baños = personas_baños*dat.baño_insumo_c
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Funcion para la cantidad de personas que irian a los talleres
+
+''' Parametros: 
+        Porcentaje que usaría
+        Personas del segmento
+        Personas que acompañan a las personas del segmento'''
+
+personas_taller = pr.f_prob_binomial(dat.porcentaje_taller_A, int(datos_visita[0][0]), acompañ_A)
+#print(personas_baños)
+costo_baños = personas_taller*dat.taller_insumo_c + dat.taller_fijo_c
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 
 

@@ -12,6 +12,9 @@ import random
 import simulaciones as sim
 import itertools
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# INGRESOS
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Funcion que da el numero de visitas y el numero de personas que compraron al mes
 def f_visitas_segmento(n_canales, param_beta, param_segmento, param_t_visitan):
@@ -203,7 +206,8 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v
 
     """
     # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
-    v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios, param_v_costos) for i in range(param_visita)]
+    v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios,
+                                  param_v_costos) for i in range(param_visita)]
     return v_periodo
 
 
@@ -235,5 +239,32 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento,
                                        param_v_precios, param_v_costos) for i in range(param_n_periodos)]
 
     return m_ventas_totales_persona
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# COSTOS
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def f_prob_binomial(param_porcent, param_seg, param_acompañante):
+    """
+    Parameters
+    ----------
+    param_porcent : float : porcentaje
+    param_seg : int : numero de asistentes por sector A
+    param_acompañante : int: numero de acompañantes por sector A
+
+    Returns
+    -------
+    vis_baños : lis : cantidad de personas que usan el baño
+
+    Debugging
+    -------
+    param_porcentaje = 0.5
+    param_seg = 365
+    param_acompañante= 546
+
+    """
+
+    personas = sim.f_simular("binomial", {'param1': param_seg + param_acompañante, 'param2': param_porcent}, 1, 2, 0)
+
+    return personas
 
 

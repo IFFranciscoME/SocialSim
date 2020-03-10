@@ -33,8 +33,8 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     """
 
     if param_dist == "beta":  # -- Beta
-        return param_rango[0] + np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
-                                               size=param_num).round(param_redondeo) * (param_rango[1] - param_rango[0])
+        return (param_rango[0] + np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
+                                               size=param_num) * (param_rango[1] - param_rango[0])).round(param_redondeo)
     elif param_dist == "normal":  # -- Normal
         return np.random.normal(loc=param_pars['param1'], scale=param_pars['param2'],
                                 size=param_num).round(param_redondeo)
@@ -48,7 +48,6 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
 
 
 # Funcion que calcula la probabilidad siguiendo una distribucion dada discretisandola
-
 def f_prob_discr(param_dist, param_pars_dist, param_num):
     """
     Parameters
@@ -74,11 +73,11 @@ def f_prob_discr(param_dist, param_pars_dist, param_num):
     if sum(v_prob) == 1:
         return v_prob_acum
     else:
-        print('ERROR de probabilidades')
+        #print('-')
         return v_prob_acum
 
 
-#
+# Matriz de combinaciones
 def f_prob_combinaciones(param_n_product, param_par_dist_comb):
     """
     Parameters
@@ -115,8 +114,8 @@ def f_prob_combinaciones(param_n_product, param_par_dist_comb):
     return m_bin_comb, v_prob_comb
 
 
-#
-def f_prob_cantidad(param_n_max_product, param_par_dist_cant):
+# Funcion de vector de probabilidad
+def f_prob_cantidad(param_n_max_product, param_dist, param_par_dist_cant):
     """
     Parameters
     ----------
@@ -134,7 +133,7 @@ def f_prob_cantidad(param_n_max_product, param_par_dist_cant):
     """
 
     # Se propone distribucion beta para las combinaciones
-    dist_cant = 'expon'
+    dist_cant = param_dist
 
     # Numero maximo de productos que se comprarian
     k_nm_p = param_n_max_product

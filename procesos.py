@@ -238,7 +238,7 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento,
     m_ventas_totales_persona = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb, v_prob_cant,
                                        param_v_precios, param_v_costos) for i in range(param_n_periodos)]
 
-    return m_ventas_totales_persona
+    return m_visitan, m_ventas_totales_persona
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # COSTOS

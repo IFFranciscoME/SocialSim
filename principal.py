@@ -17,14 +17,17 @@ import simulaciones as sim
         Numero de personas alcanzadas por segmentos
         Personas que visitaron en el tiempo t-1'''
 # Numero de canales
-n_canales = 2
+n_canales_A = 2
+n_canales_B = 2
 # Personas de alcance por canal de facebook
-p_canal_facebook = int((dat.publicidad_A / dat.cpm_A)* 1000)
+p_canal_facebook_A = int((dat.publicidad_A / dat.cpm_A)* 1000)
+p_canal_facebook_B = int((dat.publicidad_B / dat.cpm_B)* 1000)
 # Personas de alcance por canal de iteso
-p_canal_iteso = dat.segmento_A
+p_canal_iteso_A = dat.segmento_A
+p_canal_iteso_B = dat.segmento_B
 
 # 3 resultados: numero de personas que visitan, compran y regresan
-v, c, r = pr.f_visitas_segmento(n_canales, dat.param_beta, [p_canal_facebook, p_canal_iteso], [0,0])
+v, c, r = pr.f_visitas_segmento(n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A], [0,0])
 #print(v, c, r)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -40,7 +43,8 @@ v, c, r = pr.f_visitas_segmento(n_canales, dat.param_beta, [p_canal_facebook, p_
 # Periodos a simular
 t = 18
 # Resultado de datos visita: [Visitas, Compras, Regresan]
-datos_visita = pr.f_serie_tiempo_visitan(t, n_canales, dat.param_beta, [p_canal_facebook, p_canal_iteso])
+datos_visita_A = pr.f_serie_tiempo_visitan(t, n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A])
+datos_visita_B = pr.f_serie_tiempo_visitan(t, n_canales_B, dat.param_beta, [p_canal_facebook_B, p_canal_iteso_B])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -109,10 +113,11 @@ ing_ut_ven_cos = pr.f_periodo_ventas(c, m_bin_comb, v_prob_comb, v_prob_cant, da
         Vector de lista de precios por producto
         Vector de lista de costos por producto'''
 
-ing_ut_ven_cos_18 = pr.f_ventas_total(t, n_canales, dat.param_beta, [p_canal_facebook, p_canal_iteso], # Parametros de f_serie_tiempo_visitan
+vcr_iuvc_A = pr.f_ventas_total(t, n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A], # Parametros de f_serie_tiempo_visitan
                            m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c) # Parametros de f_periodo_ventas
 
-print(len(ing_ut_ven_cos_18))
+vcr_iuvc_B = pr.f_ventas_total(t, n_canales_B, dat.param_beta, [p_canal_facebook_B, p_canal_iteso_B], # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c) # Parametros de f_periodo_ventas
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,7 +141,7 @@ param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.para
         Distribucion que seguiria las diferentes numero de acompañantes
         Parametros para la distribucion de los acompañantes'''
 
-acompañ_A = sim.f_acompañantes_periodo(param_v_sector_A_prob_acom, int(datos_visita[0][0]), dat.min_acomp_A)
+acompañ_A = sim.f_acompañantes_periodo(param_v_sector_A_prob_acom, int(datos_visita_A[0][0]), dat.min_acomp_A)
 #print(acompañ_A)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -148,7 +153,7 @@ acompañ_A = sim.f_acompañantes_periodo(param_v_sector_A_prob_acom, int(datos_v
         Personas del segmento
         Personas que acompañan a las personas del segmento'''
 
-personas_baños = pr.f_prob_binomial(dat.porcentaje_baño, int(datos_visita[0][0]), acompañ_A)
+personas_baños = pr.f_prob_binomial(dat.porcentaje_baño, int(datos_visita_A[0][0]), acompañ_A)
 #print(personas_baños)
 costo_baños = personas_baños*dat.baño_insumo_c
 
@@ -161,11 +166,13 @@ costo_baños = personas_baños*dat.baño_insumo_c
         Personas del segmento
         Personas que acompañan a las personas del segmento'''
 
-personas_taller = pr.f_prob_binomial(dat.porcentaje_taller_A, int(datos_visita[0][0]), acompañ_A)
+personas_taller = pr.f_prob_binomial(dat.porcentaje_taller_A, int(datos_visita_A[0][0]), acompañ_A)
 #print(personas_baños)
 costo_baños = personas_taller*dat.taller_insumo_c + dat.taller_fijo_c
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
 
 
 

@@ -9,42 +9,7 @@
 import procesos as pr
 import datos as dat
 import simulaciones as sim
-
-# Funcion de visitas por segmento, ejemplo del segmento A (un periodo)
-''' Parametros: 
-        Numero de canales: Facebook y Iteso
-        Parametros para las distribuciones de las simulaciones de visitas, regresos, compras
-        Numero de personas alcanzadas por segmentos
-        Personas que visitaron en el tiempo t-1'''
-# Numero de canales
-n_canales_A = 2
-n_canales_B = 2
-# Personas de alcance por canal de facebook
-p_canal_facebook_A = int((dat.publicidad_A / dat.cpm_A)* 1000)
-p_canal_facebook_B = int((dat.publicidad_B / dat.cpm_B)* 1000)
-# Personas de alcance por canal de iteso
-p_canal_iteso_A = dat.segmento_A
-p_canal_iteso_B = dat.segmento_B
-
-# 3 resultados: numero de personas que visitan, compran y regresan
-v, c, r = pr.f_visitas_segmento(n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A], [0,0])
-#print(v, c, r)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Funcion de serie de tiempo de visitas
-
-''' Parametros: 
-        Numero de periodos de la serie de tiempo
-        Numero de canales: Facebook y Iteso
-        Parametros para las distribuciones de las simulaciones de visitas, regresos, compras
-        Numero de personas alcanzadas por segmentos
-        Personas que visitaron en el tiempo t-1'''
-
-# Periodos a simular
-t = 18
-# Resultado de datos visita: [Visitas, Compras, Regresan]
-datos_visita_A = pr.f_serie_tiempo_visitan(t, n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A])
-datos_visita_B = pr.f_serie_tiempo_visitan(t, n_canales_B, dat.param_beta, [p_canal_facebook_B, p_canal_iteso_B])
+import numpy as np
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -68,33 +33,7 @@ m_bin_comb, v_prob_comb = sim.f_prob_combinaciones(dat.k_plantas, dat.param_comb
 v_prob_cant = sim.f_prob_cantidad(dat.k_max_prod, 'expon', dat.param_cant)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Funcion de ventas por cada persona
-''' Parametros: 
-        Matriz de posibles combinaciones (funcion en simulaciones: f_prob_combinaciones)
-        Vector de probabilidades por combinacion (f_prob_combinaciones)
-        Vector de probabilidades por cantidad (f_prob_cantidad)
-        Vector de lista de precios por producto
-        Vector de lista de costos por producto'''
-
-ingreso, utilidad, ventas, costos = pr.f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c)
-#print(ingreso, utilidad, ventas, costos)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Funcion que da las compras del periodo de todas las personas
-
-''' Parametros:
-        Numero de personas en el periodo de tiempo actual,  que se repetira la funcion anterior
-        Matriz de posibles combinaciones (funcion en simulaciones: f_prob_combinaciones)
-        Vector de probabilidades por combinacion (f_prob_combinaciones)
-        Vector de probabilidades por cantidad (f_prob_cantidad)
-        Vector de lista de precios por producto
-        Vector de lista de costos por producto'''
-
-ing_ut_ven_cos = pr.f_periodo_ventas(c, m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+t = 18
 
 # Funcion que combina f_serie_tiempo_visitan y f_periodo_ventas
 
@@ -113,17 +52,48 @@ ing_ut_ven_cos = pr.f_periodo_ventas(c, m_bin_comb, v_prob_comb, v_prob_cant, da
         Vector de lista de precios por producto
         Vector de lista de costos por producto'''
 
-vcr_iuvc_A = pr.f_ventas_total(t, n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A], # Parametros de f_serie_tiempo_visitan
-                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c) # Parametros de f_periodo_ventas
+vcr_iuvch_A = pr.f_ventas_total(t, dat.n_canales, dat.param_beta, dat.p_total_A, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h) # Parametros de f_periodo_ventas
 
-vcr_iuvc_B = pr.f_ventas_total(t, n_canales_B, dat.param_beta, [p_canal_facebook_B, p_canal_iteso_B], # Parametros de f_serie_tiempo_visitan
-                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c) # Parametros de f_periodo_ventas
+vcr_iuvch_B = pr.f_ventas_total(t, dat.n_canales, dat.param_beta, dat.p_total_B, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h) # Parametros de f_periodo_ventas
+
+vcr_iuvch_C = pr.f_ventas_total(t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h) # Parametros de f_periodo_ventas
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#%%
+'''
+    vcr_iuvc_A[1] los 18 periodos
+    vcr_iuvc_A[1][0] las personas del primer periodo
+    vcr_iuvc_A[1][0][0] los ingresos, las utilidades, ventas por producto, costo por productos, horas de una persona
+    vcr_iuvc_A[1][0][0][0] ingresos
+'''
+def f_extract(obj, num, suma):
+    if suma:
+        dato = [np.sum([obj[1][j][i][num] for i in range(len(obj[1][j]))]) for j in range(len(obj[1]))]
+    else:
+        dato = [[obj[1][j][i][num] for i in range(len(obj[1][j]))] for j in range(len(obj[1]))]
+    return dato
+    
+# Utilidad
+utilidad_A = f_extract(vcr_iuvch_A, 1, True)
+utilidad_B = f_extract(vcr_iuvch_B, 1, True)
+
+# Horas
+horas_A = f_extract(vcr_iuvch_A, 4, True)
+horas_B = f_extract(vcr_iuvch_B, 4, True)
+
+# Visitantes
+visitantes_A = vcr_iuvch_A[0][0]
+visitantes_B = vcr_iuvch_B[0][0]
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#%%
 
-# Funcion para vector de probabilidades de acompañantes del sector A
+# Funcion para vector de probabilidades de acompañantes
 
 ''' Parametros: 
         Numero de acompañantes del sector
@@ -131,46 +101,27 @@ vcr_iuvc_B = pr.f_ventas_total(t, n_canales_B, dat.param_beta, [p_canal_facebook
         Parametros para la distribucion de los acompañantes'''
 
 param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.param_acomp_A)
+param_v_sector_B_prob_acom = sim.f_prob_cantidad(dat.n_acomp_B, 'beta', dat.param_acomp_B)
+param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.param_acomp_C)
+
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Funcion para los acompañantes del sector en un periodo
+# Acompoñantes, baños, talleres
 
-''' Parametros: 
-        Numero de acompañantes del sector
-        Distribucion que seguiria las diferentes numero de acompañantes
-        Parametros para la distribucion de los acompañantes'''
-
-acompañ_A = sim.f_acompañantes_periodo(param_v_sector_A_prob_acom, int(datos_visita_A[0][0]), dat.min_acomp_A)
-#print(acompañ_A)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Funcion para la cantidad de personas que utilizarian el baño
-
-''' Parametros: 
-        Porcentaje que usaría
-        Personas del segmento
-        Personas que acompañan a las personas del segmento'''
-
-personas_baños = pr.f_prob_binomial(dat.porcentaje_baño, int(datos_visita_A[0][0]), acompañ_A)
-#print(personas_baños)
-costo_baños = personas_baños*dat.baño_insumo_c
+acomp_A, baños_A, c_b_A, taller_A, c_t_A = pr.f_ts_costos(param_v_sector_A_prob_acom, visitantes_A, dat.min_acomp_A,
+                                         dat.porcentaje_baño, dat.baño_insumo_c,
+                                         dat.porcentaje_taller_A, dat.taller_insumo_c)
+acomp_B, baños_B, c_b_B, taller_B, c_t_B = pr.f_ts_costos(param_v_sector_B_prob_acom, visitantes_B, dat.min_acomp_B,
+                                         dat.porcentaje_baño, dat.baño_insumo_c,
+                                         dat.porcentaje_taller_B, dat.taller_insumo_c)
+acomp_B, baños_B, c_b_B, taller_B, c_t_B = pr.f_ts_costos(param_v_sector_B_prob_acom, visitantes_B, dat.min_acomp_B,
+                                         dat.porcentaje_baño, dat.baño_insumo_c,
+                                         dat.porcentaje_taller_B, dat.taller_insumo_c)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Funcion para la cantidad de personas que irian a los talleres
-
-''' Parametros: 
-        Porcentaje que usaría
-        Personas del segmento
-        Personas que acompañan a las personas del segmento'''
-
-personas_taller = pr.f_prob_binomial(dat.porcentaje_taller_A, int(datos_visita_A[0][0]), acompañ_A)
-#print(personas_baños)
-costo_baños = personas_taller*dat.taller_insumo_c + dat.taller_fijo_c
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 

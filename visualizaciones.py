@@ -47,9 +47,9 @@ plt.plot(x, pdf)
 plt.show()
 
 # Serie de tiempo de compras, una simulacion
-from principal import datos_visita, t
+from principal import datos_visita_A, t
 x = np.arange(t)
-y = datos_visita[1]
+y = datos_visita_A[1]
 
 plt.plot(x, y)
 plt.show()

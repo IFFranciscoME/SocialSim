@@ -7,9 +7,10 @@
 # .. Repositorio: https://github.com/                                                     .. #
 # .. .................................................................................... .. #
 
-# Mercado accesible por segmento
-segmento_A = 10800         # Segmento A: Familias
-segmento_B = 9000          # Segmento B: Jovenes
+
+# Segmento A: Familias
+# Segmento B: Jovenes
+# Segmento C: Comuneros
 
 # Presupuesto por mes
 publicidad_mensual = 500        # Dinero estimado destiando para publicidad
@@ -24,8 +25,31 @@ publicidad_A = publicidad_mensual * ponderacio_A
 publicidad_B = publicidad_mensual * ponderacio_B
 
 # Costo por mil impresiones para anuncios en Facebook
-cpm_A = 10                # Costo para anunciarse con el segmento A
-cpm_B = 10                # Costo para anunciarse con el segmento B
+cpm_A = 50                # Costo para anunciarse con el segmento A
+cpm_B = 40                # Costo para anunciarse con el segmento B
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Mercado accesible por segmento
+
+# Personas de alcance por canal de facebook
+p_canal_facebook_A = int((publicidad_A / cpm_A)* 1000)
+p_canal_facebook_B = int((publicidad_B / cpm_B)* 1000)
+
+# Personas de alcance por canal de iteso
+p_canal_iteso_A = 750
+p_canal_iteso_B = 940
+
+# Personas de alcance por canal kiosko
+p_canal_plaza_A = 200
+p_canal_plaza_B = 100
+
+segmento_C = 30
+
+p_total_A = [p_canal_facebook_A, p_canal_iteso_A, p_canal_plaza_A]
+p_total_B = [p_canal_facebook_B, p_canal_iteso_B, p_canal_plaza_B]
+p_total_C = [segmento_C]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Tipos de productos que se venderian
 v_plantas_n = ["planta1", "planta2", "planta3", "planta4"]
@@ -33,6 +57,7 @@ v_plantas_n = ["planta1", "planta2", "planta3", "planta4"]
 # Precios de tales productos
 v_plantas_p = [30, 50, 150, 200]
 v_plantas_c = [20, 30, 100, 120]
+v_plantas_h = [0.5, 1, 2, 3.5]
 
 # Numero de productos totales
 k_plantas = len(v_plantas_n)
@@ -44,8 +69,11 @@ k_max_prod = 3
 # Parametros
 
 # Parametros para distribucion beta, para las distribuciones de [clicks] visita, regresa, compra
-param_beta = [[[1.5, 4, 0, 0.1], [4, 2, 0, 0.2], [1, 2, 0, 0.05], [4.5, 1.5, 0.2, 0.55]], # Canal 1
-                [[4, 2, 0, 0.1], [1, 2, 0, 0.05], [4.5, 1.5, 0.2, 0.35]]]      # Canal 2
+param_beta = [[[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]], # Canal 1: Facebook
+                [[4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
+              [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]]      # Canal 3: Plaza tlajomulco
+
+param_beta_c = [[[4, 2, 0.1, 0.18], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]]]
 
 # Parametros para los 16 posibles combinaciones (distribucion beta)
 param_comb = [1.5, 2, 0, 1]
@@ -53,6 +81,9 @@ param_comb = [1.5, 2, 0, 1]
 # Parametros para la maxima cantidad de productos (distribucion exponencial)
 param_cant = [0.31, 0.03]
 
+# Numero de canales
+n_canales = len(param_beta)
+n_canales_c = len(param_beta_c)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Acompañantes
 
@@ -68,11 +99,17 @@ max_acomp_B = 3
 n_acomp_B = (max_acomp_B - min_acomp_B) + 1
 param_acomp_B = [1.5, 3.5, 0, 1]
 
+# Segmento C
+min_acomp_C = 2
+max_acomp_C = 5
+n_acomp_C = (max_acomp_C - min_acomp_C) + 1
+param_acomp_C = [1.5, 2.5, 0, 1]
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Baño
 
 # Porcentaje del total de personas que visitarian que entrarian al baño
-porcentaje_baño = 0.56
+porcentaje_baño = 0.15
 # Costo por insumo de bañor
 baño_insumo_c = 1
 
@@ -81,7 +118,9 @@ baño_insumo_c = 1
 
 # Porcentaje que asistirian por segmento
 porcentaje_taller_A = 0.15
-porcentaje_taller_C = 0.15
+porcentaje_taller_B = 0.05
+porcentaje_taller_B = 0.35
+
 taller_insumo_c = 10
 taller_fijo_c = 100
 

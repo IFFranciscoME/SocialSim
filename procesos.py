@@ -71,7 +71,6 @@ def f_visitas_segmento(n_canales, param_beta, param_segmento, param_t_visitan):
     personas_compran = [int(personas_visitan_total[i] * porcentaje_compra[i]) for i in range(n_canales)]
     # Personas totales que compran
     personas_compran_total = np.sum(personas_compran)
-
     return personas_visitan_total, personas_compran_total, personas_regresan
 
 
@@ -114,7 +113,7 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
 
 
 # Funcion que regresa la compra individual
-def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, param_v_precios, param_v_costos):
+def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, param_v_precios, param_v_costos, param_v_horas):
     """
     Parameters
     ----------
@@ -176,14 +175,17 @@ def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, par
     # Venta totales
     v_venta_persona = np.array(cantidad) * np.array(combinacion) * np.array(param_v_precios)
     v_costo_persona = np.array(cantidad) * np.array(combinacion) * np.array(param_v_costos)
+    v_horas_persona = np.array(cantidad) * np.array(combinacion) * np.array(param_v_horas)
+
+    k_horas_total = sum(v_horas_persona)
     k_ingreso_total = sum(v_venta_persona)
     k_utilidad_total = sum(v_venta_persona) - sum(v_costo_persona)
 
-    return k_ingreso_total, k_utilidad_total, v_venta_persona, v_costo_persona
+    return k_ingreso_total, k_utilidad_total, v_venta_persona, v_costo_persona, k_horas_total
 
 
 # Funcion que da las compras del periodo de todas las personas
-def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios, param_v_costos):
+def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios, param_v_costos, param_v_horas):
     """
     Parameters
     ----------
@@ -207,13 +209,13 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v
     """
     # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
     v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios,
-                                  param_v_costos) for i in range(param_visita)]
+                                  param_v_costos, param_v_horas) for i in range(param_visita)]
     return v_periodo
 
 
 # Funcion de ventas totales por personas y periodo de tiempo
 def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento,
-                           m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios, param_v_costos):
+                           m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios, param_v_costos, param_v_horas):
     """
     Parameters
     ----------
@@ -236,13 +238,77 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento,
 
     # Matriz de ventas por persona y periodo
     m_ventas_totales_persona = [f_periodo_ventas(int(m_visitan[1][i]), m_bin_comb, v_prob_comb, v_prob_cant,
-                                       param_v_precios, param_v_costos) for i in range(param_n_periodos)]
+                                       param_v_precios, param_v_costos, param_v_horas) for i in range(param_n_periodos)]
 
     return m_visitan, m_ventas_totales_persona
+
+
+def f_extract(param_obj, param_k_num, param_b_suma):
+    """
+    Parameters
+    ----------
+    param_obj : list : return de funcion f_ventas_total
+    param_k_num : int : numero [0, 4] donde 0 es ingreso, 1 es utilidad, 2 ventas por producto, 3 costo por producto, 4 horas
+    param_b_suma : bool : La suma de todo el periodo
+
+    Returns
+    -------
+    dato : lis : serie de tiempo del dato requerido
+
+    Debugging
+    -------
+    param_obj = f_ventas_total(parameters)
+    param_k_num = 1
+    param_b_suma = True
+
+    """
+    if param_b_suma:
+        dato = [np.sum([param_obj[1][j][i][param_k_num] for i in range(len(param_obj[1][j]))]) for j in range(len(param_obj[1]))]
+    else:
+        dato = [[param_obj[1][j][i][param_k_num] for i in range(len(param_obj[1][j]))] for j in range(len(param_obj[1]))]
+    return dato
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # COSTOS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+def f_ts_costos(param_v_sector_prob_acomp, param_v_visitantes, param_k_min_acomp,
+                param_porcentaje_baño, param_costo_baño,
+                param_porcentaje_taller, param_costo_taller):
+    """
+    Parameters
+    ----------
+    param_vectorprob : list : vector con las probabilidades
+    param_seg: int : numero de asistentes por sector
+    Returns
+    -------
+    v_cant_acom : list : cantidad de acompañantes por sector
+
+    Debugging
+    -------
+    param_vectorprob = [.2, .8, 1]
+    param_seg= [342]
+
+    """
+    v_acompañantes = [sim.f_acompañantes_periodo(param_v_sector_prob_acomp,
+                                                 int(param_v_visitantes[i]),
+                                                 param_k_min_acomp) for i in range(len(param_v_visitantes))]
+
+    # Baños
+    personas_baños = [f_prob_binomial(param_porcentaje_baño, int(param_v_visitantes[i]),
+                                      v_acompañantes[i]) for i in range(len(param_v_visitantes))]
+    costo_baños = param_costo_baño * personas_baños
+
+    # Talleres
+    personas_taller = [f_prob_binomial(param_porcentaje_taller, int(param_v_visitantes[i]),
+                                       v_acompañantes[i]) for i in range(len(param_v_visitantes))]
+    costo_taller = param_costo_taller * personas_taller
+
+    return v_acompañantes, personas_baños, costo_baños, personas_taller, costo_taller
+
+
 def f_prob_binomial(param_porcent, param_seg, param_acompañante):
     """
     Parameters

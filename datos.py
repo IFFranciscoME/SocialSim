@@ -119,7 +119,7 @@ baño_insumo_c = 1
 # Porcentaje que asistirian por segmento
 porcentaje_taller_A = 0.15
 porcentaje_taller_B = 0.05
-porcentaje_taller_B = 0.35
+porcentaje_taller_C = 0.35
 
 taller_insumo_c = 10
 taller_fijo_c = 100

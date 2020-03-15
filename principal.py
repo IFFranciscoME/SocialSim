@@ -64,29 +64,24 @@ vcr_iuvch_C = pr.f_ventas_total(t, dat.n_canales_c, dat.param_beta_c, dat.p_tota
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #%%
 '''
+    vcr_iuvc_A[0] visitantes, compradores, lo que regresan
     vcr_iuvc_A[1] los 18 periodos
     vcr_iuvc_A[1][0] las personas del primer periodo
     vcr_iuvc_A[1][0][0] los ingresos, las utilidades, ventas por producto, costo por productos, horas de una persona
     vcr_iuvc_A[1][0][0][0] ingresos
 '''
-def f_extract(obj, num, suma):
-    if suma:
-        dato = [np.sum([obj[1][j][i][num] for i in range(len(obj[1][j]))]) for j in range(len(obj[1]))]
-    else:
-        dato = [[obj[1][j][i][num] for i in range(len(obj[1][j]))] for j in range(len(obj[1]))]
-    return dato
-    
-# Utilidad
-utilidad_A = f_extract(vcr_iuvch_A, 1, True)
-utilidad_B = f_extract(vcr_iuvch_B, 1, True)
-
-# Horas
-horas_A = f_extract(vcr_iuvch_A, 4, True)
-horas_B = f_extract(vcr_iuvch_B, 4, True)
-
 # Visitantes
 visitantes_A = vcr_iuvch_A[0][0]
 visitantes_B = vcr_iuvch_B[0][0]
+visitantes_C = vcr_iuvch_C[0][0]
+    
+# Utilidad
+utilidad_A = pr.f_extract(vcr_iuvch_A, 1, True)
+utilidad_B = pr.f_extract(vcr_iuvch_B, 1, True)
+
+# Horas
+horas_A = pr.f_extract(vcr_iuvch_A, 4, True)
+horas_B = pr.f_extract(vcr_iuvch_B, 4, True)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -104,8 +99,6 @@ param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.para
 param_v_sector_B_prob_acom = sim.f_prob_cantidad(dat.n_acomp_B, 'beta', dat.param_acomp_B)
 param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.param_acomp_C)
 
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Acompoñantes, baños, talleres
@@ -116,9 +109,9 @@ acomp_A, baños_A, c_b_A, taller_A, c_t_A = pr.f_ts_costos(param_v_sector_A_prob
 acomp_B, baños_B, c_b_B, taller_B, c_t_B = pr.f_ts_costos(param_v_sector_B_prob_acom, visitantes_B, dat.min_acomp_B,
                                          dat.porcentaje_baño, dat.baño_insumo_c,
                                          dat.porcentaje_taller_B, dat.taller_insumo_c)
-acomp_B, baños_B, c_b_B, taller_B, c_t_B = pr.f_ts_costos(param_v_sector_B_prob_acom, visitantes_B, dat.min_acomp_B,
+acomp_C, baños_C, c_b_C, taller_C, c_t_C = pr.f_ts_costos(param_v_sector_C_prob_acom, visitantes_C, dat.min_acomp_C,
                                          dat.porcentaje_baño, dat.baño_insumo_c,
-                                         dat.porcentaje_taller_B, dat.taller_insumo_c)
+                                         dat.porcentaje_taller_C, dat.taller_insumo_c)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

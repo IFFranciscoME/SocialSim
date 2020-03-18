@@ -169,3 +169,8 @@ def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
         v_cant_acom.append(len(np.where(param_v_sector_acom_prob < r)[0]) + param_ajuste)
 
     return sum(v_cant_acom)
+
+
+
+
+

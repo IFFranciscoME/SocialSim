@@ -10,6 +10,8 @@ import procesos as pr
 import datos as dat
 import simulaciones as sim
 import numpy as np
+import pandas as pd
+import itertools
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -33,7 +35,25 @@ m_bin_comb, v_prob_comb = sim.f_prob_combinaciones(dat.k_plantas, dat.param_comb
 v_prob_cant = sim.f_prob_cantidad(dat.k_max_prod, 'expon', dat.param_cant)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Funcion para vector de probabilidades de acompañantes
+
+''' Parametros: 
+        Numero de acompañantes del sector
+        Distribucion que seguiria las diferentes numero de acompañantes
+        Parametros para la distribucion de los acompañantes'''
+
+param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.param_acomp_A)
+param_v_sector_B_prob_acom = sim.f_prob_cantidad(dat.n_acomp_B, 'beta', dat.param_acomp_B)
+param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.param_acomp_C)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Numero de periodos que se simulan
 t = 18
+
+# Numero de simulaciones
+n = 10
 
 # Funcion que combina f_serie_tiempo_visitan y f_periodo_ventas
 
@@ -52,70 +72,44 @@ t = 18
         Vector de lista de precios por producto
         Vector de lista de costos por producto'''
 
-vcr_iuvch_A = pr.f_ventas_total(t, dat.n_canales, dat.param_beta, dat.p_total_A, # Parametros de f_serie_tiempo_visitan
-                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h) # Parametros de f_periodo_ventas
+param_a = [t, dat.n_canales, dat.param_beta, dat.p_total_A, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h]
+param_b = [t, dat.n_canales, dat.param_beta, dat.p_total_B, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h]
+param_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h]
 
-vcr_iuvch_B = pr.f_ventas_total(t, dat.n_canales, dat.param_beta, dat.p_total_B, # Parametros de f_serie_tiempo_visitan
-                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h) # Parametros de f_periodo_ventas
 
-vcr_iuvch_C = pr.f_ventas_total(t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, # Parametros de f_serie_tiempo_visitan
-                           m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h) # Parametros de f_periodo_ventas
+param_a_c = [param_v_sector_A_prob_acom, dat.min_acomp_A, dat.porcentaje_baño, 
+                                         dat.baño_insumo_c, dat.porcentaje_taller_A, dat.taller_insumo_c]
+param_b_c = [param_v_sector_B_prob_acom, dat.min_acomp_B, dat.porcentaje_baño, 
+                                         dat.baño_insumo_c, dat.porcentaje_taller_B, dat.taller_insumo_c]
+param_c_c = [param_v_sector_C_prob_acom, visitantes_C, dat.min_acomp_C, dat.porcentaje_baño, 
+                                         dat.baño_insumo_c, dat.porcentaje_taller_C, dat.taller_insumo_c]
 
+Df_A = pr.f_DataFrame_1(10, param_a, param_a_c)
+#Df_B = pr.f_DataFrame_1(10, param_b)
+#Df_C = pr.f_DataFrame_1(10, param_c)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
 #%%
-'''
-    vcr_iuvc_A[0] visitantes, compradores, lo que regresan
-    vcr_iuvc_A[1] los 18 periodos
-    vcr_iuvc_A[1][0] las personas del primer periodo
-    vcr_iuvc_A[1][0][0] los ingresos, las utilidades, ventas por producto, costo por productos, horas de una persona
-    vcr_iuvc_A[1][0][0][0] ingresos
-'''
-# Visitantes
-visitantes_A = vcr_iuvch_A[0][0]
-visitantes_B = vcr_iuvch_B[0][0]
-visitantes_C = vcr_iuvch_C[0][0]
+
+
+#temp = np.array(temp_A[3])
+
+#vpn = [np.npv(rate, utilidad[i]) for i in range(n_sim)]
+#tir = [np.irr(rate, utilidad[i]) for i in range(n_sim)]
+
+
+
+
+
     
-# Utilidad
-utilidad_A = pr.f_extract(vcr_iuvch_A, 1, True)
-utilidad_B = pr.f_extract(vcr_iuvch_B, 1, True)
-
-# Horas
-horas_A = pr.f_extract(vcr_iuvch_A, 4, True)
-horas_B = pr.f_extract(vcr_iuvch_B, 4, True)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#%%
-
-# Funcion para vector de probabilidades de acompañantes
-
-''' Parametros: 
-        Numero de acompañantes del sector
-        Distribucion que seguiria las diferentes numero de acompañantes
-        Parametros para la distribucion de los acompañantes'''
-
-param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.param_acomp_A)
-param_v_sector_B_prob_acom = sim.f_prob_cantidad(dat.n_acomp_B, 'beta', dat.param_acomp_B)
-param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.param_acomp_C)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Acompoñantes, baños, talleres
-
-acomp_A, baños_A, c_b_A, taller_A, c_t_A = pr.f_ts_costos(param_v_sector_A_prob_acom, visitantes_A, dat.min_acomp_A,
-                                         dat.porcentaje_baño, dat.baño_insumo_c,
-                                         dat.porcentaje_taller_A, dat.taller_insumo_c)
-acomp_B, baños_B, c_b_B, taller_B, c_t_B = pr.f_ts_costos(param_v_sector_B_prob_acom, visitantes_B, dat.min_acomp_B,
-                                         dat.porcentaje_baño, dat.baño_insumo_c,
-                                         dat.porcentaje_taller_B, dat.taller_insumo_c)
-acomp_C, baños_C, c_b_C, taller_C, c_t_C = pr.f_ts_costos(param_v_sector_C_prob_acom, visitantes_C, dat.min_acomp_C,
-                                         dat.porcentaje_baño, dat.baño_insumo_c,
-                                         dat.porcentaje_taller_C, dat.taller_insumo_c)
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
+#datos_A, datos2_A = pr.f_n_simulaciones_proceso(10, param_a, param_a_c)
+#df = pr.f_DataFrame_1(10, param_a, param_a_c)
 
 
 

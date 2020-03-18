@@ -66,7 +66,13 @@ ingreso, utilidad, ventas, costos, horas = pr.f_ventas_persona(pri.m_bin_comb, p
         Vector de lista de costos por producto'''
 
 ing_ut_ven_cos = pr.f_periodo_ventas(c, pri.m_bin_comb, pri.v_prob_comb, pri.v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h)
-
+'''
+    vcr_iuvc_A[0] visitantes, compradores, lo que regresan
+    vcr_iuvc_A[1] los 18 periodos
+    vcr_iuvc_A[1][0] las personas del primer periodo
+    vcr_iuvc_A[1][0][0] los ingresos, las utilidades, ventas por producto, costo por productos, horas de una persona
+    vcr_iuvc_A[1][0][0][0] ingresos
+'''
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Funcion para vector de probabilidades de acompañantes del sector A
 

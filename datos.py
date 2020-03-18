@@ -7,6 +7,7 @@
 # .. Repositorio: https://github.com/                                                     .. #
 # .. .................................................................................... .. #
 
+import numpy as np
 
 # Segmento A: Familias
 # Segmento B: Jovenes
@@ -53,11 +54,23 @@ p_total_C = [segmento_C]
 
 # Tipos de productos que se venderian
 v_plantas_n = ["planta1", "planta2", "planta3", "planta4"]
+v_comidas_n = ["comida1", "comida2", "comida3"]
 
 # Precios de tales productos
+
+# Plantas
 v_plantas_p = [30, 50, 150, 200]
 v_plantas_c = [20, 30, 100, 120]
 v_plantas_h = [0.5, 1, 2, 3.5]
+
+c_insumo_plantas = 1
+
+# Comida
+v_comidas_p = [25, 35, 55]
+v_comidas_c = [15, 20, 25]
+v_comidas_h = [0.15, 0., 2, 3.5]
+
+c_insumo_comida = 5
 
 # Numero de productos totales
 k_plantas = len(v_plantas_n)
@@ -73,7 +86,8 @@ param_beta = [[[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5,
                 [[4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
               [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]]      # Canal 3: Plaza tlajomulco
 
-param_beta_c = [[[4, 2, 0.1, 0.18], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]]]
+param_beta_c = [[[4, 2, 0.1, 0.18], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]]] 
+# van a asambleas, muestran interes, hacen trabajo comunal
 
 # Parametros para los 16 posibles combinaciones (distribucion beta)
 param_comb = [1.5, 2, 0, 1]
@@ -123,6 +137,24 @@ porcentaje_taller_C = 0.35
 
 taller_insumo_c = 10
 taller_fijo_c = 100
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Costos Fijos
+
+c_f_limpieza_estacionamiento = 100
+c_f_limpieza_baños = 100
+c_f_limpieza_general = 100
+c_f_limpieza_comida = 100
+c_f_wifi = 100
+c_f_energiaelectrica = 100
+c_f_agua = 100
+
+costo_total_fijo = np.array([c_f_limpieza_estacionamiento, c_f_limpieza_baños, c_f_limpieza_general,
+                    c_f_limpieza_comida, c_f_wifi, c_f_energiaelectrica, c_f_agua]).sum()
+
+
+
+
 
 
 

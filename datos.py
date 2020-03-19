@@ -10,8 +10,11 @@
 import numpy as np
 
 # Segmento A: Familias
+segmento_A = 'a'
 # Segmento B: Jovenes
+segmento_B = 'b'
 # Segmento C: Comuneros
+segmento_C = 'c'
 
 # Presupuesto por mes
 publicidad_mensual = 500        # Dinero estimado destiando para publicidad
@@ -48,7 +51,7 @@ segmento_C = 30
 
 p_total_A = [p_canal_facebook_A, p_canal_iteso_A, p_canal_plaza_A]
 p_total_B = [p_canal_facebook_B, p_canal_iteso_B, p_canal_plaza_B]
-p_total_C = [segmento_C]
+p_total_C = [segmento_C/1.5, segmento_C/1.5]
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -63,17 +66,20 @@ v_plantas_p = [30, 50, 150, 200]
 v_plantas_c = [20, 30, 100, 120]
 v_plantas_h = [0.5, 1, 2, 3.5]
 
+k_plantas_porcentaje = 0.35
 c_insumo_plantas = 1
 
 # Comida
 v_comidas_p = [25, 35, 55]
 v_comidas_c = [15, 20, 25]
-v_comidas_h = [0.15, 0., 2, 3.5]
+v_comidas_h = [0.15, 0.2, 0.5]
 
+k_comidas_porcentaje = 0.65
 c_insumo_comida = 5
 
 # Numero de productos totales
 k_plantas = len(v_plantas_n)
+k_comidas = len(v_comidas_n)
 
 # Maxima cantidad que se estaria dispuesto a comprar
 k_max_prod = 3
@@ -86,7 +92,8 @@ param_beta = [[[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5,
                 [[4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
               [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]]      # Canal 3: Plaza tlajomulco
 
-param_beta_c = [[[4, 2, 0.1, 0.18], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]]] 
+param_beta_c = [[[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]], # Venden Plantas
+                [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.4, 0.7]]] # Venden Comida
 # van a asambleas, muestran interes, hacen trabajo comunal
 
 # Parametros para los 16 posibles combinaciones (distribucion beta)
@@ -133,7 +140,7 @@ baño_insumo_c = 1
 # Porcentaje que asistirian por segmento
 porcentaje_taller_A = 0.15
 porcentaje_taller_B = 0.05
-porcentaje_taller_C = 0.35
+porcentaje_taller_C = 0.20
 
 taller_insumo_c = 10
 taller_fijo_c = 100
@@ -150,7 +157,7 @@ c_f_energiaelectrica = 100
 c_f_agua = 100
 
 costo_total_fijo = np.array([c_f_limpieza_estacionamiento, c_f_limpieza_baños, c_f_limpieza_general,
-                    c_f_limpieza_comida, c_f_wifi, c_f_energiaelectrica, c_f_agua]).sum()
+                    c_f_limpieza_comida, c_f_wifi, c_f_energiaelectrica, c_f_agua, taller_fijo_c]).sum()
 
 
 

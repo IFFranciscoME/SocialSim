@@ -11,7 +11,6 @@ import datos as dat
 import simulaciones as sim
 import numpy as np
 import pandas as pd
-import itertools
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -22,6 +21,8 @@ import itertools
         Parametros para la distribucion de las combinaciones'''
 
 m_bin_comb, v_prob_comb = sim.f_prob_combinaciones(dat.k_plantas, dat.param_comb)
+
+m_bin_comb_c, v_prob_comb_c = sim.f_prob_combinaciones(dat.k_comidas, dat.param_comb)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -55,11 +56,9 @@ t = 18
 # Numero de simulaciones
 n = 10
 
-# Funcion que combina f_serie_tiempo_visitan y f_periodo_ventas
-
-''' Parametros:
+''' Parametros de ventas
         Numero de periodos (meses) que se simularian
-        Numero de canales: Facebook y Iteso:
+        Numero de canales: Facebook y Iteso
         Numero de periodos simulados (18 meses)
         Parametros para las distribuciones de las simulaciones de visitas, regresos, compras
         Numero de personas alcanzadas por segmentos
@@ -71,45 +70,61 @@ n = 10
         Vector de probabilidades por cantidad (f_prob_cantidad)
         Vector de lista de precios por producto
         Vector de lista de costos por producto'''
-
-param_a = [t, dat.n_canales, dat.param_beta, dat.p_total_A, # Parametros de f_serie_tiempo_visitan
+        
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        
+param_a_v_p = [t, dat.n_canales, dat.param_beta, dat.p_total_A, dat.k_plantas_porcentaje, # Parametros de f_serie_tiempo_visitan
                            m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h]
-param_b = [t, dat.n_canales, dat.param_beta, dat.p_total_B, # Parametros de f_serie_tiempo_visitan
+param_b_v_p = [t, dat.n_canales, dat.param_beta, dat.p_total_B, dat.k_plantas_porcentaje, # Parametros de f_serie_tiempo_visitan
                            m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h]
-param_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, # Parametros de f_serie_tiempo_visitan
+param_c_v_p = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_plantas_porcentaje, # Parametros de f_serie_tiempo_visitan
                            m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h]
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+param_a_v_c = [t, dat.n_canales, dat.param_beta, dat.p_total_A, dat.k_comidas_porcentaje, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c, dat.v_comidas_h]
+param_b_v_c = [t, dat.n_canales, dat.param_beta, dat.p_total_B, dat.k_comidas_porcentaje, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c, dat.v_comidas_h]
+param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_comidas_porcentaje, # Parametros de f_serie_tiempo_visitan
+                           m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c, dat.v_comidas_h]
 
-param_a_c = [param_v_sector_A_prob_acom, dat.min_acomp_A, dat.porcentaje_baño, 
-                                         dat.baño_insumo_c, dat.porcentaje_taller_A, dat.taller_insumo_c]
-param_b_c = [param_v_sector_B_prob_acom, dat.min_acomp_B, dat.porcentaje_baño, 
-                                         dat.baño_insumo_c, dat.porcentaje_taller_B, dat.taller_insumo_c]
-param_c_c = [param_v_sector_C_prob_acom, visitantes_C, dat.min_acomp_C, dat.porcentaje_baño, 
-                                         dat.baño_insumo_c, dat.porcentaje_taller_C, dat.taller_insumo_c]
-
-Df_A = pr.f_DataFrame_1(10, param_a, param_a_c)
-#Df_B = pr.f_DataFrame_1(10, param_b)
-#Df_C = pr.f_DataFrame_1(10, param_c)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+''' Parametros de costos
+        Parametros para las distribuciones de acompañantes
+        Numero minimo de acompañantes por sector
+        Porcentaje de personas que van al baño
+        Costo por uso de baño
+        Porcentaje de personas que van a los talleres
+        Costo de insumos de talleres
+'''
+param_a_c = [param_v_sector_A_prob_acom, dat.min_acomp_A, dat.porcentaje_baño, 
+                                         dat.baño_insumo_c, dat.porcentaje_taller_A, dat.taller_insumo_c, dat.costo_total_fijo]
+param_b_c = [param_v_sector_B_prob_acom, dat.min_acomp_B, dat.porcentaje_baño, 
+                                         dat.baño_insumo_c, dat.porcentaje_taller_B, dat.taller_insumo_c, dat.costo_total_fijo]
+param_c_c = [param_v_sector_C_prob_acom, dat.min_acomp_C, dat.porcentaje_baño, 
+                                         dat.baño_insumo_c, dat.porcentaje_taller_C, dat.taller_insumo_c, dat.costo_total_fijo]
 
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+Df_A_plantas_flujo = pr.f_DataFrames(10, param_a_v_p, param_a_c, 'flujo')
+Df_B_plantas_flujo = pr.f_DataFrames(10, param_b_v_p, param_b_c, 'flujo')
+
+Df_A_comidas_flujo = pr.f_DataFrames(10, param_a_v_c, param_a_c, 'flujo')
+Df_B_comidas_flujo = pr.f_DataFrames(10, param_b_v_c, param_b_c, 'flujo')
+
+Df_C = pr.f_DataFrames(10, param_c_v_p, param_c_c, 'personas c')
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #%%
 
-
-#temp = np.array(temp_A[3])
 
 #vpn = [np.npv(rate, utilidad[i]) for i in range(n_sim)]
 #tir = [np.irr(rate, utilidad[i]) for i in range(n_sim)]
 
 
-
-
-
-    
-#datos_A, datos2_A = pr.f_n_simulaciones_proceso(10, param_a, param_a_c)
-#df = pr.f_DataFrame_1(10, param_a, param_a_c)
 
 
 

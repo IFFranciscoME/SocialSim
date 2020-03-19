@@ -13,15 +13,10 @@ import simulaciones as sim
 # Numero de canales
 n_canales_A = len(dat.param_beta)
 n_canales_B = len(dat.param_beta)
-# Personas de alcance por canal de facebook
-p_canal_facebook_A = int((dat.publicidad_A / dat.cpm_A)* 1000)
-p_canal_facebook_B = int((dat.publicidad_B / dat.cpm_B)* 1000)
-# Personas de alcance por canal de iteso
-p_canal_iteso_A = dat.segmento_A
-p_canal_iteso_B = dat.segmento_B
+
 
 # 3 resultados: numero de personas que visitan, compran y regresan
-v, c, r = pr.f_visitas_segmento(n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A, dat.segmento_C], [0,0,0])
+v, c, r, pc = pr.f_visitas_segmento(n_canales_A, dat.param_beta, dat.p_total_A, [0,0,0])
 #print(v, c, r)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -37,9 +32,10 @@ v, c, r = pr.f_visitas_segmento(n_canales_A, dat.param_beta, [p_canal_facebook_A
 # Periodos a simular
 t = 18
 # Resultado de datos visita: [Visitas, Compras, Regresan]
-datos_visita_A = pr.f_serie_tiempo_visitan(t, n_canales_A, dat.param_beta, [p_canal_facebook_A, p_canal_iteso_A])
-datos_visita_B = pr.f_serie_tiempo_visitan(t, n_canales_B, dat.param_beta, [p_canal_facebook_B, p_canal_iteso_B])
+datos_visita_A, dvc_A = pr.f_serie_tiempo_visitan(t, n_canales_A, dat.param_beta, dat.p_total_A)
+datos_visita_B, dvc_B = pr.f_serie_tiempo_visitan(t, n_canales_B, dat.param_beta, dat.p_total_B)
 
+ #%%
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Funcion de ventas por cada persona
@@ -50,9 +46,9 @@ datos_visita_B = pr.f_serie_tiempo_visitan(t, n_canales_B, dat.param_beta, [p_ca
         Vector de lista de precios por producto
         Vector de lista de costos por producto'''
 
-ingreso, utilidad, ventas, costos, horas = pr.f_ventas_persona(pri.m_bin_comb, pri.v_prob_comb, pri.v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h)
+venta_p = pr.f_ventas_persona(pri.m_bin_comb, pri.v_prob_comb, pri.v_prob_cant, dat.v_plantas_p, dat.v_plantas_c, dat.v_plantas_h)
 #print(ingreso, utilidad, ventas, costos)
-
+#%%
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Funcion que da las compras del periodo de todas las personas
@@ -104,7 +100,7 @@ acompañ_A = sim.f_acompañantes_periodo(param_v_sector_A_prob_acom, int(datos_v
         Personas del segmento
         Personas que acompañan a las personas del segmento'''
 
-personas_baños = pr.f_prob_binomial(dat.porcentaje_baño, int(datos_visita_A[0][0]), acompañ_A)
+personas_baños = sim.f_prob_binomial(dat.porcentaje_baño, int(datos_visita_A[0][0]), acompañ_A)
 #print(personas_baños)
 costo_baños = personas_baños*dat.baño_insumo_c
 
@@ -117,7 +113,7 @@ costo_baños = personas_baños*dat.baño_insumo_c
         Personas del segmento
         Personas que acompañan a las personas del segmento'''
 
-personas_taller = pr.f_prob_binomial(dat.porcentaje_taller_A, int(datos_visita_A[0][0]), acompañ_A)
+personas_taller = sim.f_prob_binomial(dat.porcentaje_taller_A, int(datos_visita_A[0][0]), acompañ_A)
 #print(personas_baños)
 costo_taller = personas_taller*dat.taller_insumo_c + dat.taller_fijo_c
 

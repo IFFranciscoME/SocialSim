@@ -171,6 +171,31 @@ def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
     return sum(v_cant_acom)
 
 
+def f_prob_binomial(param_porcent, param_seg, param_acompañante):
+    """
+    Parameters
+    ----------
+    param_porcent : float : porcentaje
+    param_seg : int : numero de asistentes por sector A
+    param_acompañante : int: numero de acompañantes por sector A
+
+    Returns
+    -------
+    vis_baños : lis : cantidad de personas que usan el baño
+
+    Debugging
+    -------
+    param_porcentaje = 0.5
+    param_seg = 365
+    param_acompañante= 546
+
+    """
+
+    personas = f_simular("binomial", {'param1': param_seg + param_acompañante, 'param2': param_porcent}, 1, 2, 0)
+
+    return personas
+
+
 
 
 

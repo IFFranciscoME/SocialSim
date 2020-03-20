@@ -378,8 +378,22 @@ def f_DataFrames(n_sim, list_parameters_v, list_parameters_c, dataframe_n):
         
         return DF_results
     
+    # - - - DataFrame para segmento C
+    
+    if dataframe_n == 'metricas sociales':
+        
+        nombres = ['Actividad Economica', 'Participacion', 'Educacion Social', 'Comunicacion']
+        
+        lista =[[datos1[i][7], datos3[0][i][:,0], datos2[i][5], datos3[0][i][:,0]] for i in range(n_sim)]
+        
+        DF_results = [pd.DataFrame(lista[i], index = nombres).T for i in range(n_sim)]
+        
+        return DF_results
+    
     else:
         return datos1, datos2, datos3
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # COSTOS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -427,6 +441,36 @@ def f_ts_costos(param_v_sector_prob_acomp, param_v_visitantes, param_k_min_acomp
 
     return v_acompañantes, list(itertools.chain(*costo_baños)), list(itertools.chain(*personas_taller)), list(itertools.chain(*insumos_taller)), costos_fijos, list(itertools.chain(*familias_taller))
 
+
+def f_metricas_financieras(utilidad, param_inversion, param_tasa, n_sim):
+    """
+    Parameters
+    ----------
+    utilidad : DataFrame : utilidades de todas las simulaciones
+    param_inversion : int : inversion inicial
+    param_tasa : float : tasa de descuento
+    n_sim : int : numero de simulaciones
+    
+    Returns
+    -------
+    vpn : list : valor presente neto
+    tir : list : tasa interna de retorno
+
+    Debugging
+    -------
+    utilidad = pd.DataFrame()
+    param_inversion = 9000
+    param_tasa = 0.10
+    n_sim = 10
+    """
+
+    inversion = pd.DataFrame(np.full(shape = n_sim, fill_value = -param_inversion))
+    flujo = pd.concat([inversion.T, utilidad]).reset_index(drop = True)
+    
+    vpn = [np.npv(param_tasa, flujo.iloc[:,i]) for i in range(n_sim)]
+    tir = [np.irr(flujo.iloc[:,i]) for i in range(n_sim)]
+    
+    return vpn, tir
 
 
 

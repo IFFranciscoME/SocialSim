@@ -196,6 +196,34 @@ def f_prob_binomial(param_porcent, param_seg, param_acompañante):
     return personas
 
 
+def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van, porcentaje_ven_mural):
+    """
+    Parameters
+    ----------
+    param_porcent : float : porcentaje
+    param_seg : int : numero de asistentes por sector A
+    param_acompañante : int: numero de acompañantes por sector A
+
+    Returns
+    -------
+    vis_baños : lis : cantidad de personas que usan el baño
+
+    Debugging
+    -------
+    param_porcentaje = 0.5
+    param_seg = 365
+    param_acompañante= 546
+
+    """
+    familias_no_asamblea = n_familias_total - personas_asamblea
+    
+    familias_van_casa_com = [list(itertools.chain(*[f_prob_binomial(porcentaje_van, int(familias_no_asamblea.iloc[i,j]),
+                                                 0) for i in range(len(personas_asamblea))])) for j in range(len(personas_asamblea.columns))]
+    
+    familias_ven_mural = [list(itertools.chain(*[f_prob_binomial(porcentaje_ven_mural, familias_van_casa_com[j][i], 
+                                               0) for i in range(len(personas_asamblea))])) for j in range(len(personas_asamblea.columns))]
+    return familias_ven_mural
+
 
 
 

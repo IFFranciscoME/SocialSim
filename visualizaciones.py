@@ -9,9 +9,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as st
-from datos import param_beta
+from datos import param_beta_a
 
-pb = param_beta[0]
+pb = param_beta_a[0]
 # Visualizar las distribuciones propuestas
 
 # Distribucion de los clicks
@@ -47,9 +47,3 @@ plt.plot(x, pdf)
 plt.show()
 
 # Serie de tiempo de compras, una simulacion
-from principal import datos_visita_A, t
-x = np.arange(t)
-y = datos_visita_A[1]
-
-plt.plot(x, y)
-plt.show()

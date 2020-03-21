@@ -56,7 +56,7 @@ def f_prob_discr(param_dist, param_pars_dist, param_num):
     Parameters
     ----------
     param_dist : str :  nombre de la distribucion
-    param_pars : list : parametros de la distribucion
+    param_pars_dist : list : parametros de la distribucion
     param_num : int : cantidad de probabilidades requeridas
 
     Returns
@@ -153,6 +153,8 @@ def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
     ----------
     param_vectorprob : list : vector con las probabilidades
     param_seg: int : numero de asistentes por sector
+    param_ajuste : int : numero de ajuste
+    
     Returns
     -------
     v_cant_acom : list : cantidad de acompañantes por sector
@@ -160,7 +162,8 @@ def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
     Debugging
     -------
     param_vectorprob = [.2, .8, 1]
-    param_seg= [342]
+    param_seg = [342]
+    param_ajuste = 2
 
     """
     v_cant_acom = []
@@ -181,7 +184,7 @@ def f_prob_binomial(param_porcent, param_seg, param_acompañante):
 
     Returns
     -------
-    vis_baños : lis : cantidad de personas que usan el baño
+    personas : lis : cantidad de personas de acuerdo con la probabilidad binomial
 
     Debugging
     -------
@@ -200,19 +203,21 @@ def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van, porcen
     """
     Parameters
     ----------
-    param_porcent : float : porcentaje
-    param_seg : int : numero de asistentes por sector A
-    param_acompañante : int: numero de acompañantes por sector A
-
+    personas_asambleas : DataFrame : personas que van a la asamblea
+    n_familias_total : int : numero de familias total de la comunidad
+    porcentaje_van : float : porcentaje de personas que van a la casa comunal
+    porcentaje_ven_mural : float : porcentaje de los que ven el mural
+    
     Returns
     -------
-    vis_baños : lis : cantidad de personas que usan el baño
+    familias_ven_mural : lis : cantidad de personas que usan el baño
 
     Debugging
     -------
-    param_porcentaje = 0.5
-    param_seg = 365
-    param_acompañante= 546
+    personas_asambleas = pd.DataFrame([[5, 7, 9],[6, 6, 8])
+    n_familias_total = 30
+    porcentaje_van = 0.1
+    porcentaje_ven_mural = 0.9
 
     """
     familias_no_asamblea = n_familias_total - personas_asamblea

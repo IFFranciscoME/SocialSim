@@ -112,7 +112,6 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
     datos_visita[1] = c
     datos_visita[2] = [np.sum(r[i]) for i in range(len(r))]
     datos_visita_canal = [v, pc, r]
-
     return datos_visita, datos_visita_canal
 
 
@@ -198,7 +197,7 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v
     ----------
     param_visita : int : personas que asisten y compran en el periodo
     m_bin_comb : list : matriz de posibles combinaciones binarias
-    v_prob_comb : list : vector probabilidades de cada combinacion posible de combinaciones de productos
+    v_prob_comb : list : vector probabilidades de cada combinacion posible de productos
     v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
     v_precios : list : vector de precios por producto
     Returns
@@ -217,6 +216,7 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v
     # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
     v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios,
                                   param_v_costos, param_v_horas) for i in range(param_visita)]
+
     return v_periodo
 
 
@@ -234,12 +234,13 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento, para
 
     param_visita : int : personas que asisten y compran en el periodo
     m_bin_comb : list : matriz de posibles combinaciones binarias
-    v_prob_comb : list : vector probabilidades de cada combinacion posible de combinaciones de productos
+    v_prob_comb : list : vector probabilidades de cada combinacion posible de productos
     v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
     v_precios : list : vector de precios por producto
     k_mn : int : numero maximo de productos
 
     """
+
     # Matriz que regresa las personas que van [vistan, compran, regresan] durante n_periodos
     m_visitan, m_visitan_canal = f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmento)
 
@@ -471,6 +472,3 @@ def f_metricas_financieras(utilidad, param_inversion, param_tasa, n_sim):
     tir = [np.irr(flujo.iloc[:,i]) for i in range(n_sim)]
     
     return vpn, tir
-
-
-

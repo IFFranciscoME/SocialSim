@@ -82,20 +82,21 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
     Parameters
     ----------
     param_n_periodos : int : numero de meses a simular
+    n_canales : int : numero de canales
     param_beta : list : lista de listas de los parametros para la funcion de ventas por mes
     param_segmento : int : numero de personas por segmentos
 
     Returns
     -------
     datos_visita : np.array : matriz de numero de personas que [visitan, compran, regresan]
+    datos_visita_canal : list : visitas, compran y regresan por cada canal
 
     Debugging
     -------
     param_n_periodos = 18
-    param_beta = [[1.5, 4, 0, 0.1], [4, 2, 0, 0.2], [1, 2, 0, 0.05], [4.5, 1.5, 0.2, 0.55]]
-    param_segmento = 10800
-    param_publicidad = 500
-    param_cpm = 10
+    n_canales = 1
+    param_beta = [[[1.5, 4, 0, 0.1], [4, 2, 0, 0.2], [1, 2, 0, 0.05], [4.5, 1.5, 0.2, 0.55]]]
+    param_segmento = [10800]
 
     """
     datos_visita = np.zeros((3, param_n_periodos))
@@ -123,18 +124,28 @@ def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, par
     param_m_bin_comb : list : matriz de posibles combinaciones binarias
     param_v_prob_comb: list : probabilidades de cada combinacion
     param_v_prob_cant: list : probabilidades de cada cantidad posible comprada
-    param_v_precios:  list : lista de precios por producto
+    param_v_precios :  list : vector de precios por producto
+    param_v_costos : list : vector de costos por producto
+    param_v_horas : list : vector de horas por producto
 
     Returns
     -------
-    k_ingreso_total : int : venta de una persona
+    k_ingreso_total : int : dinero del ingreso de las personas
+    k_costo_total : int : dinero del costo de las ventas de persona
+    k_utilidad_total : int : resta entre el ingreso y costo por producto
+    v_venta_persona : list : vector de ingreso por producto
+    v_costo_persona : list : vector de costo por producto
+    k_horas_total : int : horas totales de los productos vendidos para esta persona
+    k_cantidad_productos : list : cantidad de cada producto vendido
 
     Debugging
     -------
     param_m_bin_comb = [[0, 0],[0, 1],[1, 0],[1, 1]]
     param_v_prob_comb = [0.1, 0.45, 0.85, 1]
     param_v_prob_cant = [0.1, 0.8, 1]
-    param_v_precios = [10, 20]
+    param_v_precios = [10, 20, 30]
+    param_v_costos = [5, 10, 12]
+    param_v_horas = [0.25, 0.5, 1]
 
     """
 
@@ -156,11 +167,11 @@ def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, par
 
         Returns
         -------
-        v_cant_prod : list : productos vendido de una persona
+        v_can_prod : list : vector de productos comprados
 
         Debugging
         -------
-        v_cant_prod = []
+        v_cant_prod = [0, 1, 0]
         param_v_prob_cant = [0.1, 0.8, 1]
 
         """
@@ -200,17 +211,22 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v
     v_prob_comb : list : vector probabilidades de cada combinacion posible de productos
     v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
     v_precios : list : vector de precios por producto
+    param_v_costos : list : vector de costos por producto
+    param_v_horas : list : vector de horas por productp
+    
     Returns
     -------
-    v_mes : list : venta del periodo (mes) de todas las personas
+    v_periodo : list : venta del periodo (mes) de todas las personas
 
     Debugging
     -------
     param_visita = 217
-    param_m_bin_comb = [[0, 0],[0, 1],[1, 0],[1, 1]]
+    param_m_bin_comb = [[[0, 0],[0, 1],[1, 0],[1, 1]]]
     param_v_prob_comb = [0.1, 0.45, 0.85, 1]
     param_v_prob_cant = [0.1, 0.8, 1]
     param_v_precios = [10, 20]
+    param_v_costos = [5, 10, 12]
+    param_v_horas = [0.25, 0.5, 1]
 
     """
     # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
@@ -227,17 +243,39 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento, para
     Parameters
     ----------
     param_n_periodo : int : numero de meses a simular
+    n_canales : int : numero de canales por segmento
+    param_porcentaje_compran : float : porcentaje que comprarian este producto
     param_beta : list : lista de listas de los parametros para la funcion de ventas por mes
     param_segmento : int : numero de personas por segmentos
-    param_publicidad : int : cantidad presupuestado para la publicidad
-    param_cpm : int : datos del precio por publicidad
-
+    ...
     param_visita : int : personas que asisten y compran en el periodo
     m_bin_comb : list : matriz de posibles combinaciones binarias
     v_prob_comb : list : vector probabilidades de cada combinacion posible de productos
     v_prob_cant : list : vector probabilidades de cada cantidad posible comprada
     v_precios : list : vector de precios por producto
     k_mn : int : numero maximo de productos
+    
+        Returns
+    -------
+    m_visitan : np.array : visitan, regresan, compran de funcion f_serie_tiempo_visitan
+    m_ventas_totales_persona
+    m_visitan_canal : list :  por canal visitan, regresan, compran de funcion f_serie_tiempo_visitan
+
+    Debugging
+    -------
+    param_n_periodos = 18
+    n_canales = 1
+    param_porcentaje_compran = 0.75
+    param_beta = [[[1.5, 4, 0, 0.1], [4, 2, 0, 0.2], [1, 2, 0, 0.05], [4.5, 1.5, 0.2, 0.55]]]
+    param_segmento = [10800]
+    ...
+    param_visita = 217
+    param_m_bin_comb = [[[0, 0],[0, 1],[1, 0],[1, 1]]]
+    param_v_prob_comb = [0.1, 0.45, 0.85, 1]
+    param_v_prob_cant = [0.1, 0.8, 1]
+    param_v_precios = [10, 20]
+    param_v_costos = [5, 10, 12]
+    param_v_horas = [0.25, 0.5, 1]
 
     """
 
@@ -283,12 +321,15 @@ def f_n_simulaciones_proceso(n_sim, list_parameters_ventas, list_parameters_cost
     Parameters
     ----------
     n_sim : int : numero de simulaciones
-    list_parameters_ventas : list : lista de paarmetros
+    list_parameters_ventas : list : lista de parametros para f_ventas_total
+    list_parameters_costos : list : lista de parametros para f_ts_costos
 
     Returns
     -------
-    dato : lis : serie de tiempo del dato requerido
-
+    dato1 : list : return de algunos datos de f_ventas_total 
+    dato2 : list : return de f_ts_costos
+    dato3 : list : segundo return de f_serie_tiempo_visitan (por canal)
+    
     Debugging
     -------
     list_parameters_ventas
@@ -322,7 +363,9 @@ def f_DataFrames(n_sim, list_parameters_v, list_parameters_c, dataframe_n):
     Parameters
     ----------
     n_sim : int : numero de simulaciones
-    list_parameters : list : lista de paarmetros
+    list_parameters_v : list : lista de parametros de ventas
+    list_parameters_c : list : lista de parametros de costos
+    dataframe_n : str : tipo de DataFrame
 
     Returns
     -------
@@ -406,8 +449,14 @@ def f_ts_costos(param_v_sector_prob_acomp, param_v_visitantes, param_k_min_acomp
     """
     Parameters
     ----------
-    param_vectorprob : list : vector con las probabilidades
-    param_seg: int : numero de asistentes por sector
+    param_v_sector_prob_acomp : list : vector con las probabilidades de acompañantes
+    param_v_visitantes : list : vector de visitantes en el periodo
+    param_k_min_acomp : int : numero acompañantes
+    param_porcentaje_baño : float : porcentaje de los visitantes que van al baño
+    param_costo_baño : int : costo de mantenimiento de baño
+    param_porcentaje_taller : float : porcentaje que irian al taller
+    param_costo_taller
+    param_costos_fijos
     Returns
     -------
     v_cant_acom : list : cantidad de acompañantes por sector
@@ -459,7 +508,7 @@ def f_metricas_financieras(utilidad, param_inversion, param_tasa, n_sim):
 
     Debugging
     -------
-    utilidad = pd.DataFrame()
+    utilidad = pd.DataFrame([100, 200, 300], [100, 150, 350])
     param_inversion = 9000
     param_tasa = 0.10
     n_sim = 10

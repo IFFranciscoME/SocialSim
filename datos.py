@@ -97,7 +97,7 @@ Ejemplo: [1.5, 4, 0.05, 0.07]. Donde:
     0.05 es el porcentaje minimo que esta simulacion (clicks) arrojaria
     0.07 es el porcentaje maximo de clicks que daria la simulacion
 '''
-param_beta_a = [[[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]], # Canal 1: Facebook
+param_beta_a = [[[1.5, 4, 0.05, 0.10], [4, 2, 0.1, 0.15], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]], # Canal 1: Facebook
                 [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
               [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]]      # Canal 3: Plaza tlajomulco
 

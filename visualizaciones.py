@@ -6,9 +6,10 @@
 # .. Licencia: Todos los derechos reservados                                              .. #
 # .. Repositorio: https://github.com/                                                     .. #
 # .. .................................................................................... .. #
+
 import matplotlib.pyplot as plt
-import numpy as np
-import scipy.stats as st
+# import numpy as np
+# import scipy.stats as st
 import datos as dat
 import simulaciones as sim
 
@@ -43,16 +44,16 @@ pb = dat.param_beta_a
 param = pb[0][0] # [1.5, 4, 0.05, 0.10]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4, [param[2], param[3]])
+simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]},
+                      10000, 4, [param[2], param[3]])
 
 # Graficar
-plt.hist(simul, bins = 100)
+plt.hist(simul, bins=100)
 plt.title('Porcentaje de personas que dan CLICK (Segmento A - Canal Facebook)')
 plt.xlabel('Porcentaje que dan click')
 plt.ylabel('Frecuencia')
 plt.show()
 
-#%%
 '''
     La segunda simulacion es la que nos regresa el porcentaje de personas que
     despues de darle click se interesaron y fueron a la casa comunal
@@ -60,19 +61,19 @@ plt.show()
 
 # Distribucion de las visitas
 
-param = pb[0][1] # [4, 2, 0.1, 0.15]
+param = pb[0][1]  # [4, 2, 0.1, 0.15]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4, [param[2], param[3]])
+simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]},
+                      10000, 4, [param[2], param[3]])
 
 # Graficar
-plt.hist(simul, bins = 100)
+plt.hist(simul, bins=100)
 plt.title('Porcentaje de personas que VISITAN (Segmento A - Canal Facebook)')
 plt.xlabel('Porcentaje que visitan')
 plt.ylabel('Frecuencia')
 plt.show()
 
-#%%
 '''
     La tercera simulacion regresa el porcentaje de personas que
     regresaria despues de haber ido una para el periodo t+1
@@ -80,39 +81,34 @@ plt.show()
 
 # Distribucion de los que regresan
 
-param = pb[0][2] # [1, 2, 0.1, 0.25]
+param = pb[0][2]  # [1, 2, 0.1, 0.25]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4, [param[2], param[3]])
+simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]},
+                      10000, 4, [param[2], param[3]])
 
 # Graficar
-plt.hist(simul, bins = 100)
+plt.hist(simul, bins=100)
 plt.title('Porcentaje de personas que REGRESAN (Segmento A - Canal Facebook)')
 plt.xlabel('Porcentaje que regresan')
 plt.ylabel('Frecuencia')
 plt.show()
 
-#%%
 '''
     La cuarta y ultima simulacion de este canal (facebook) para el segemento A
     es el porcentaje de lo que visitan que comprarian estando en casa comunal
 '''
 
 # Distribucion de los que compran
-
-param = pb[0][3] # [4.5, 1.5, 0.2, 0.55]
+param = pb[0][3]  # [4.5, 1.5, 0.2, 0.55]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4, [param[2], param[3]])
+simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]},
+                      10000, 4, [param[2], param[3]])
 
 # Graficar
-plt.hist(simul, bins = 100)
+plt.hist(simul, bins=100)
 plt.title('Porcentaje de personas que COMPRAN (Segmento A - Canal Facebook)')
 plt.xlabel('Porcentaje que compran')
 plt.ylabel('Frecuencia')
 plt.show()
-
-
-#%%
-
-

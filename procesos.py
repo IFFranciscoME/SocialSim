@@ -328,7 +328,8 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento,
                                                      param_porcentaje_compran),
                                                  m_bin_comb, v_prob_comb, v_prob_cant,
                                                  param_v_precios, param_v_costos,
-                                                 param_v_horas) for i in range(param_n_periodos)]
+                                                 param_v_horas)
+                                for i in range(param_n_periodos)]
 
     return m_visitan, m_ventas_totales_persona, m_visitan_canal
 

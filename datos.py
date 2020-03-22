@@ -47,7 +47,7 @@ p_canal_iteso_B = 940
 p_canal_plaza_A = 200
 p_canal_plaza_B = 100
 
-segmento_C = 30
+# segmento_C = 54
 
 p_total_A = [p_canal_facebook_A, p_canal_iteso_A, p_canal_plaza_A]
 p_total_B = [p_canal_facebook_B, p_canal_iteso_B, p_canal_plaza_B]
@@ -89,26 +89,34 @@ k_max_prod = 3
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Parametros
 
-# Parametros para distribucion beta, para las distribuciones de [clicks] visita, regresa, compra
+# Parametros para distribucion beta,
+# para las distribuciones de [clicks] visita, regresa, compra
+
 '''
 Ejemplo: [1.5, 4, 0.05, 0.07]. Donde:
     1.5 es 'a' para distribucion beta, 
-    4 es 'b' para la distribucion beta (ambos son los parametros que cambian la forma de la campana)
+    4 es 'b' para la distribucion beta (parametros que cambian la forma de la campana)
     0.05 es el porcentaje minimo que esta simulacion (clicks) arrojaria
     0.07 es el porcentaje maximo de clicks que daria la simulacion
 '''
-param_beta_a = [[[1.5, 4, 0.05, 0.10], [4, 2, 0.1, 0.15], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]], # Canal 1: Facebook
-                [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
-              [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]]      # Canal 3: Plaza tlajomulco
+param_beta_a = [[[1.5, 4, 0.05, 0.10], [4, 2, 0.1, 0.15], [1, 2, 0.1, 0.25],
+                 [4.5, 1.5, 0.2, 0.55]],     # Canal 1: Facebook
+                [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3],
+                 [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
+                [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5],
+                [4.5, 1.5, 0.2, 0.45]]]       # Canal 3: Plaza tlajomulco
 
-param_beta_b = [[[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]], # Canal 1: Facebook
-                [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
-              [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]]      # Canal 3: Plaza tlajomulco
+param_beta_b = [[[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25],
+                 [4.5, 1.5, 0.2, 0.55]],     # Canal 1: Facebook
+                [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3],
+                 [4.5, 1.5, 0.35, 0.75]],    # Canal 2: Iteso
+                [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5],
+                [4.5, 1.5, 0.2, 0.45]]]       # Canal 3: Plaza tlajomulco
 
-param_beta_c = [[[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]], # Venden Plantas
-                [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.4, 0.7]]] # Venden Comida
+param_beta_c = [[[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]],  # Venden Plantas
+                [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.4, 0.7]]]  # Venden Comida
+
 # van a asambleas, muestran interes, hacen trabajo comunal
-
 # Parametros para los 16 posibles combinaciones (distribucion beta)
 param_comb = [1.5, 2, 0, 1]
 
@@ -141,12 +149,13 @@ n_acomp_C = (max_acomp_C - min_acomp_C) + 1
 param_acomp_C = [1.5, 2.5, 0, 1]
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Baño
+# Bano
 
 # Porcentaje del total de personas que visitarian que entrarian al baño
-porcentaje_baño = 0.15
+porcentaje_bano = 0.15
+
 # Costo por insumo de bañor
-baño_insumo_c = 1
+bano_insumo_c = 1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Talleres
@@ -165,15 +174,16 @@ taller_fijo_c = 100
 # Costos Fijos
 
 c_f_limpieza_estacionamiento = 100
-c_f_limpieza_baños = 100
+c_f_limpieza_banos = 100
 c_f_limpieza_general = 100
 c_f_limpieza_comida = 100
 c_f_wifi = 100
 c_f_energiaelectrica = 100
 c_f_agua = 100
 
-costo_total_fijo = np.array([c_f_limpieza_estacionamiento, c_f_limpieza_baños, c_f_limpieza_general,
-                    c_f_limpieza_comida, c_f_wifi, c_f_energiaelectrica, c_f_agua, taller_fijo_c]).sum()
+costo_total_fijo = np.array([c_f_limpieza_estacionamiento, c_f_limpieza_banos,
+                             c_f_limpieza_general, c_f_limpieza_comida, c_f_wifi,
+                             c_f_energiaelectrica, c_f_agua, taller_fijo_c]).sum()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Metricas Sociales
@@ -187,8 +197,11 @@ horas_asamblea_fam = 0.5
 # 3. Educacion Social: Familias asistentes a talleres / total de Familias
 total_familias = 30
 
-# 4. Comunicacion: Familias asistentes asambleas + Familias ven el periodico mural que no fueron a la asamblea
-# **De las que estan en casa comunal (los que no fueron a asamblea) simular cuales sí verían el periodico mural** 
+# 4. Comunicacion: Familias asistentes asambleas +
+# Familias ven el periodico mural que no fueron a la asamblea
+# **De las que estan en casa comunal (los que no fueron a asamblea) simular
+# cuales sí verían el periodico mural**
+
 porcentaje_familias_van_casa = 0.10
 porcentaje_familias_ven_mural = 0.90
 
@@ -200,12 +213,3 @@ tasa = 0.10
  
 # Inversion inicial
 inversion = 5000
-
-
-
-
-
-
-
-
-

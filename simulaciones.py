@@ -1,4 +1,3 @@
-
 # .. .................................................................................... .. #
 # .. Proyecto: SocialSim - Plataforma de simulacion de proyectos socioproductivos         .. #
 # .. Archivo: simulaciones.py - procesos de estadistica y simulacion                      .. #
@@ -34,12 +33,9 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     """
 
     if param_dist == "beta":  # -- Beta
-        return (param_rango[0] +
-                np.random.beta(a=param_pars['param1'],
-                               b=param_pars['param2'],
-                               size=param_num) * (param_rango[1] -
-                                                  param_rango[0])).round(param_redondeo)
-
+        return (param_rango[0] + np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
+                                                size=param_num) * (
+                            param_rango[1] - param_rango[0])).round(param_redondeo)
     elif param_dist == "normal":  # -- Normal
         return np.random.normal(loc=param_pars['param1'], scale=param_pars['param2'],
                                 size=param_num).round(param_redondeo)
@@ -78,7 +74,6 @@ def f_prob_discr(param_dist, param_pars_dist, param_num):
     x = np.linspace(0, 1, param_num + 1)
     v_prob_acum = dist.cdf(x, *param_pars_dist[:-2], loc=param_pars_dist[-2],
                            scale=param_pars_dist[-1])
-
     v_prob = np.diff(v_prob_acum)
     if sum(v_prob) == 1:
         return v_prob_acum
@@ -129,9 +124,8 @@ def f_prob_cantidad(param_n_max_product, param_dist, param_par_dist_cant):
     """
     Parameters
     ----------
-    param_par_dist_cant
-    param_dist
     param_n_max_product : int :  numero maximo de productos que se venderian
+    param_par_dist_ventas: list : parametros de distribucion beta [a, b, loc, scale]
 
     Returns
     -------
@@ -159,13 +153,13 @@ def f_acompanantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
     """
     Parameters
     ----------
-    param_v_sector_acom_prob
+    param_vectorprob : list : vector con las probabilidades
     param_seg: int : numero de asistentes por sector
     param_ajuste : int : numero de ajuste
-    
+
     Returns
     -------
-    v_cant_acom : list : cantidad de acompañantes por sector
+    v_cant_acom : list : cantidad de acompanantes por sector
 
     Debugging
     -------
@@ -188,7 +182,7 @@ def f_prob_binomial(param_porcent, param_seg, param_acompanante):
     ----------
     param_porcent : float : porcentaje
     param_seg : int : numero de asistentes por sector A
-    param_acompanante : int: numero de acompañantes por sector A
+    param_acompanante : int: numero de acompanantes por sector A
 
     Returns
     -------
@@ -198,30 +192,30 @@ def f_prob_binomial(param_porcent, param_seg, param_acompanante):
     -------
     param_porcentaje = 0.5
     param_seg = 365
-    param_acompañante= 546
+    param_acompanante= 546
 
     """
 
-    personas = f_simular("binomial", {'param1': param_seg + param_acompanante,
-                                      'param2': param_porcent}, 1, 2, 0)
+    personas = f_simular("binomial",
+                         {'param1': param_seg + param_acompanante, 'param2': param_porcent}, 1,
+                         2, 0)
 
     return personas
 
 
 def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van,
                      porcentaje_ven_mural):
-
     """
     Parameters
     ----------
-    personas_asamblea : DataFrame : personas que van a la asamblea
+    personas_asambleas : DataFrame : personas que van a la asamblea
     n_familias_total : int : numero de familias total de la comunidad
     porcentaje_van : float : porcentaje de personas que van a la casa comunal
     porcentaje_ven_mural : float : porcentaje de los que ven el mural
-    
+
     Returns
     -------
-    familias_ven_mural : lis : cantidad de personas que usan el baño
+    familias_ven_mural : lis : cantidad de personas que usan el bano
 
     Debugging
     -------
@@ -231,19 +225,18 @@ def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van,
     porcentaje_ven_mural = 0.9
 
     """
-
     familias_no_asamblea = n_familias_total - personas_asamblea
 
-    # las familias que van a la casa comunal
-    f_van = [list(itertools.chain(*[f_prob_binomial(porcentaje_van,
-                                                    int(familias_no_asamblea.iloc[i, j]), 0)
-                                    for i in range(len(personas_asamblea))]))
-             for j in range(len(personas_asamblea.columns))]
+    familias_van_casa_com = [list(
+        itertools.chain(*[f_prob_binomial(porcentaje_van, int(familias_no_asamblea.iloc[i, j]),
+                                          0) for i in range(len(personas_asamblea))])) for j in
+                             range(len(personas_asamblea.columns))]
 
-    # las familias que ven el mural
-    familias_ven_mural = [list(itertools.chain(*[f_prob_binomial(porcentaje_ven_mural,
-                                                                 f_van[j][i], 0)
-                                                 for i in range(len(personas_asamblea))]))
-                          for j in range(len(personas_asamblea.columns))]
-
+    familias_ven_mural = [list(
+        itertools.chain(*[f_prob_binomial(porcentaje_ven_mural, familias_van_casa_com[j][i],
+                                          0) for i in range(len(personas_asamblea))])) for j in
+                          range(len(personas_asamblea.columns))]
     return familias_ven_mural
+
+
+

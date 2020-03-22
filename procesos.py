@@ -556,7 +556,7 @@ def f_ts_costos(param_v_sector_prob_acomp, param_v_visitantes, param_k_min_acomp
 
     """
 
-    v_acompanantes = [sim.f_acompañantes_periodo(param_v_sector_prob_acomp,
+    v_acompanantes = [sim.f_acompanantes_periodo(param_v_sector_prob_acomp,
                                                  int(param_v_visitantes[i]),
                                                  param_k_min_acomp)
                       for i in range(len(param_v_visitantes))]

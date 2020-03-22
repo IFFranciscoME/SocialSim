@@ -1,19 +1,20 @@
-# .. .................................................................................... .. #
-# .. Proyecto: SocialSim - Plataforma de simulacion de proyectos socioproductivos         .. #
-# .. Archivo: datos.py - procesos de obtencion y almacenamiento de datos                  .. #
-# .. Desarrolla: ITERA LABS, SAPI de CV                                                   .. #
-# .. Licencia: Todos los derechos reservados                                              .. #
-# .. Repositorio: https://github.com/                                                     .. #
-# .. .................................................................................... .. #
+
+# .. ................................................................................... .. #
+# .. Proyecto: SocialSim - Plataforma de simulacion de proyectos socioproductivos        .. #
+# .. Archivo: datos.py - procesos de obtencion y almacenamiento de datos                 .. #
+# .. Desarrolla: ITERA LABS, SAPI de CV                                                  .. #
+# .. Licencia: Todos los derechos reservados                                             .. #
+# .. Repositorio: https://github.com/                                                    .. #
+# .. ................................................................................... .. #
 
 import numpy as np
 
 # Segmento A: Familias
-segmento_A = 'a'
+# segmento_A = 'a'
 # Segmento B: Jovenes
-segmento_B = 'b'
+# segmento_B = 'b'
 # Segmento C: Comuneros
-segmento_C = 'c'
+# segmento_C = 'c'
 
 # Presupuesto por mes
 publicidad_mensual = 500  # Dinero estimado destiando para publicidad
@@ -31,7 +32,7 @@ publicidad_B = publicidad_mensual * ponderacio_B
 cpm_A = 50  # Costo para anunciarse con el segmento A
 cpm_B = 40  # Costo para anunciarse con el segmento B
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Mercado accesible por segmento
 
 # Personas de alcance por canal de facebook
@@ -52,9 +53,9 @@ p_total_A = [p_canal_facebook_A, p_canal_iteso_A, p_canal_plaza_A]
 p_total_B = [p_canal_facebook_B, p_canal_iteso_B, p_canal_plaza_B]
 p_total_C = [segmento_C, segmento_C]
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
-# Tipos de productos que se venderian
+# cantidad de tipos diferentes de productos que se venderian. Ej: 1) Plantas, 2) Comida
 k_n_productos = 2
 
 v_plantas_n = ["planta1", "planta2", "planta3", "planta4"]
@@ -85,14 +86,15 @@ k_comidas = len(v_comidas_n)
 # Maxima cantidad que se estaria dispuesto a comprar
 k_max_prod = 3
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Parametros
 
-# Parametros para distribucion beta, para las distribuciones de [clicks] visita, regresa, compra
+# Parametros de distribucion beta, para las distribuciones de [clicks] visita, regresa, compra
+
 '''
 Ejemplo: [1.5, 4, 0.05, 0.07]. Donde:
     1.5 es 'a' para distribucion beta, 
-    4 es 'b' para la distribucion beta (ambos son los parametros que cambian la forma de la campana)
+    4 es 'b' para la distribucion beta (ambos parametros cambian la forma de la campana)
     0.05 es el porcentaje minimo que esta simulacion (clicks) arrojaria
     0.07 es el porcentaje maximo de clicks que daria la simulacion
 '''
@@ -124,7 +126,8 @@ param_cant = [0.31, 0.03]
 n_canales_a = len(param_beta_a)
 n_canales_b = len(param_beta_b)
 n_canales_c = len(param_beta_c)
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Acompanantes
 
 # Segmento A
@@ -145,7 +148,7 @@ max_acomp_C = 5
 n_acomp_C = (max_acomp_C - min_acomp_C) + 1
 param_acomp_C = [1.5, 2.5, 0, 1]
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Bano
 
 # Porcentaje del total de personas que visitarian que entrarian al bano
@@ -153,7 +156,7 @@ porcentaje_bano = 0.15
 # Costo por insumo de banor
 bano_insumo_c = 1
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Talleres
 n_talleres = 4
 
@@ -166,7 +169,7 @@ porcentaje_taller_C = 0.20
 taller_insumo_c = 10
 taller_fijo_c = 100
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Costos Fijos
 
 c_f_limpieza_estacionamiento = 100
@@ -181,7 +184,7 @@ costo_total_fijo = np.array(
     [c_f_limpieza_estacionamiento, c_f_limpieza_banos, c_f_limpieza_general,
      c_f_limpieza_comida, c_f_wifi, c_f_energiaelectrica, c_f_agua, taller_fijo_c]).sum()
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Metricas Sociales
 
 # 1. Actividad Economica: Horas trabajadas * salario por hora
@@ -191,14 +194,16 @@ salario_hora = 16
 horas_asamblea_fam = 0.5
 
 # 3. Educacion Social: Familias asistentes a talleres / total de Familias
-total_familias = 30
+total_familias = segmento_C
 
-# 4. Comunicacion: Familias asistentes asambleas + Familias ven el periodico mural que no fueron a la asamblea
-# **De las que estan en casa comunal (los que no fueron a asamblea) simular cuales sí verían el periodico mural**
+# 4. Comunicacion: Familias asistentes asambleas + Familias ven el periodico mural
+# que no fueron a la asamblea **De las que estan en casa comunal
+# (los que no fueron a asamblea) simular cuales sí verían el periodico mural**
+
 porcentaje_familias_van_casa = 0.10
 porcentaje_familias_ven_mural = 0.90
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Metricas Financieras
 
 # Tasa de descuento
@@ -206,11 +211,3 @@ tasa = 0.10
 
 # Inversion inicial
 inversion = 5000
-
-
-
-
-
-
-
-

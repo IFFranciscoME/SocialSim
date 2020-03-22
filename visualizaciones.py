@@ -1,3 +1,4 @@
+
 # .. .................................................................................... .. #
 # .. Proyecto: SocialSim - Plataforma de simulacion de proyectos socioproductivos         .. #
 # .. Archivo: visualizaciones.py - procesos de visualizacion de datos                     .. #
@@ -5,9 +6,8 @@
 # .. Licencia: Todos los derechos reservados                                              .. #
 # .. Repositorio: https://github.com/                                                     .. #
 # .. .................................................................................... .. #
+
 import matplotlib.pyplot as plt
-import numpy as np
-import scipy.stats as st
 import datos as dat
 import simulaciones as sim
 
@@ -115,4 +115,3 @@ plt.ylabel('Frecuencia')
 plt.show()
 
 # %%
-

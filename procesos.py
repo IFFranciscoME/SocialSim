@@ -400,7 +400,7 @@ def f_n_simulaciones_proceso(n_sim, list_parameters_ventas, list_parameters_cost
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # - - Funcion para generar dataframes de simulaciones completas de proceso
 
-def f_DataFrames(n_sim, list_parameters_v, list_parameters_c, dataframe_n):
+def f_dataframes(n_sim, list_parameters_v, list_parameters_c, dataframe_n):
     """
     Parameters
     ----------

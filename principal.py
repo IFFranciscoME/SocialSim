@@ -120,19 +120,19 @@ param_c_c = [param_v_sector_C_prob_acom, dat.min_acomp_C, dat.porcentaje_bano,
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # DataFrame por segementos
 
-Df_A_plantas_flujo = pr.f_DataFrames(n, param_a_v_p, param_a_c, 'flujo')
-Df_B_plantas_flujo = pr.f_DataFrames(n, param_b_v_p, param_b_c, 'flujo')
+df_a_plantas_flujo = pr.f_dataframes(n, param_a_v_p, param_a_c, 'flujo')
+df_b_plantas_flujo = pr.f_dataframes(n, param_b_v_p, param_b_c, 'flujo')
 
-Df_A_comidas_flujo = pr.f_DataFrames(n, param_a_v_c, param_a_c, 'flujo')
-Df_B_comidas_flujo = pr.f_DataFrames(n, param_b_v_c, param_b_c, 'flujo')
+df_a_comidas_flujo = pr.f_dataframes(n, param_a_v_c, param_a_c, 'flujo')
+df_b_comidas_flujo = pr.f_dataframes(n, param_b_v_c, param_b_c, 'flujo')
 
-Df_C = pr.f_DataFrames(n, param_c_v_p, param_c_c, 'personas c')
+df_c = pr.f_dataframes(n, param_c_v_p, param_c_c, 'personas c')
 
-Df_A_plantas_completo = pr.f_DataFrames(n, param_a_v_p, param_a_c, 'completo')
-Df_A_comidas_completo = pr.f_DataFrames(n, param_a_v_c, param_a_c, 'completo')
+df_a_plantas_completo = pr.f_dataframes(n, param_a_v_p, param_a_c, 'completo')
+df_a_comidas_completo = pr.f_dataframes(n, param_a_v_c, param_a_c, 'completo')
 
-Df_B_plantas_completo = pr.f_DataFrames(n, param_b_v_p, param_b_c, 'completo')
-Df_B_comidas_completo = pr.f_DataFrames(n, param_b_v_c, param_b_c, 'completo')
+df_b_plantas_completo = pr.f_dataframes(n, param_b_v_p, param_b_c, 'completo')
+df_b_comidas_completo = pr.f_dataframes(n, param_b_v_c, param_b_c, 'completo')
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -148,13 +148,13 @@ keys_u = ['Utilidad_A-Plantas', 'Utilidad_A-Comidas', 'Utilidad_B-Plantas',
           'Utilidad_B-Comidas']
 
 utilidad_segmento = [
-    pd.concat([Df_A_plantas_flujo[i].iloc[:, 3], Df_A_comidas_flujo[i].iloc[:, 3],
-               Df_B_plantas_flujo[i].iloc[:, 3], Df_B_comidas_flujo[i].iloc[:, 3]], axis=1,
+    pd.concat([df_a_plantas_flujo[i].iloc[:, 3], df_a_comidas_flujo[i].iloc[:, 3],
+               df_b_plantas_flujo[i].iloc[:, 3], df_b_comidas_flujo[i].iloc[:, 3]], axis=1,
               keys=keys_u) for i in range(n)]
 
 utilidad_total = pd.concat(
-    [pd.concat([Df_A_plantas_flujo[i].iloc[:, 3], Df_A_comidas_flujo[i].iloc[:, 3],
-                Df_B_plantas_flujo[i].iloc[:, 3], Df_B_comidas_flujo[i].iloc[:, 3]],
+    [pd.concat([df_a_plantas_flujo[i].iloc[:, 3], df_a_comidas_flujo[i].iloc[:, 3],
+                df_b_plantas_flujo[i].iloc[:, 3], df_b_comidas_flujo[i].iloc[:, 3]],
                axis=1).T.sum() for i in range(n)], axis=1)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -165,26 +165,26 @@ utilidad_total = pd.concat(
 keys_h = ['Horas_A-Plantas', 'Horas_A-Comidas', 'Horas_B-Plantas', 'Horas_B-Comidas']
 
 horas_segmento = [
-    pd.concat([Df_A_plantas_completo[i].iloc[:, 10], Df_A_comidas_completo[i].iloc[:, 10],
-               Df_B_plantas_completo[i].iloc[:, 10], Df_B_comidas_completo[i].iloc[:, 10]],
+    pd.concat([df_a_plantas_completo[i].iloc[:, 10], df_a_comidas_completo[i].iloc[:, 10],
+               df_b_plantas_completo[i].iloc[:, 10], df_b_comidas_completo[i].iloc[:, 10]],
               axis=1, keys=keys_h) for i in range(n)]
 
 keys_sim = list(np.arange(n).astype('U'))
 
 horas_total = pd.concat(
-    [pd.concat([Df_A_plantas_completo[i].iloc[:, 10], Df_A_comidas_completo[i].iloc[:, 10],
-                Df_B_plantas_completo[i].iloc[:, 10], Df_B_comidas_completo[i].iloc[:, 10]],
+    [pd.concat([df_a_plantas_completo[i].iloc[:, 10], df_a_comidas_completo[i].iloc[:, 10],
+                df_b_plantas_completo[i].iloc[:, 10], df_b_comidas_completo[i].iloc[:, 10]],
                axis=1).T.sum() for i in range(n)], axis=1, keys=keys_sim)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Participantes de asambleas
 
-asamblea_total = pd.concat([Df_C[i].iloc[:, 0] for i in range(n)], axis=1, keys=keys_sim)
+asamblea_total = pd.concat([df_c[i].iloc[:, 0] for i in range(n)], axis=1, keys=keys_sim)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Participantes en talleres
 
-taller_total = pd.concat([Df_C[i].iloc[:, 1] for i in range(n)], axis=1, keys=keys_sim)
+taller_total = pd.concat([df_c[i].iloc[:, 1] for i in range(n)], axis=1, keys=keys_sim)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Familias que no van a la asamblea pero ven el mural debido a que asisten a la casa comunal

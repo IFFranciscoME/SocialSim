@@ -37,7 +37,6 @@ pb = dat.param_beta_a
 '''
 
 # Distribucion de los clicks
-
 param = pb[0][0]  # [1.5, 4, 0.05, 0.10]
 
 # Simulaciones con esos parametros
@@ -51,7 +50,6 @@ plt.xlabel('Porcentaje que dan click')
 plt.ylabel('Frecuencia')
 plt.show()
 
-# %%
 '''
     La segunda simulacion es la que nos regresa el porcentaje de personas que
     despues de darle click se interesaron y fueron a la casa comunal
@@ -72,7 +70,6 @@ plt.xlabel('Porcentaje que visitan')
 plt.ylabel('Frecuencia')
 plt.show()
 
-# %%
 '''
     La tercera simulacion regresa el porcentaje de personas que
     regresaria despues de haber ido una para el periodo t+1
@@ -93,14 +90,12 @@ plt.xlabel('Porcentaje que regresan')
 plt.ylabel('Frecuencia')
 plt.show()
 
-# %%
 '''
     La cuarta y ultima simulacion de este canal (facebook) para el segemento A
     es el porcentaje de lo que visitan que comprarian estando en casa comunal
 '''
 
 # Distribucion de los que compran
-
 param = pb[0][3]  # [4.5, 1.5, 0.2, 0.55]
 
 # Simulaciones con esos parametros
@@ -113,5 +108,3 @@ plt.title('Porcentaje de personas que COMPRAN (Segmento A - Canal Facebook)')
 plt.xlabel('Porcentaje que compran')
 plt.ylabel('Frecuencia')
 plt.show()
-
-# %%

@@ -71,7 +71,7 @@ def f_visitas_segmento(n_canales, param_beta, param_segmento, param_t_visitan):
     # Personas que visitan por canal
     personas_visitan = [int(porcentaje_visita[i] * param_segmento[i]) for i in
                         range(n_canales)]
-    # Personas que regresan (porcentaje que regresan por personas que visitaron un periodo antes)
+    # Personas que regresan (porcentaje que regresan por personas que visitaron antes)
     personas_regresan = [int(porcentaje_regresa[i] * param_t_visitan[i]) for i in
                          range(n_canales)]
     # Personas que visitan este periodo mas personas que regresan
@@ -214,7 +214,8 @@ def f_ventas_persona(param_m_bin_comb, param_v_prob_comb, param_v_prob_cant, par
     k_utilidad_total = sum(v_venta_persona) - sum(v_costo_persona)
     k_cantidad_productos = sum(v_cantidad_persona)
 
-    return k_ingreso_total, k_costo_total, k_utilidad_total, v_venta_persona, v_costo_persona, k_horas_total, k_cantidad_productos
+    return k_ingreso_total, k_costo_total, k_utilidad_total, v_venta_persona, v_costo_persona,\
+           k_horas_total, k_cantidad_productos
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Compras todas las personas - #
@@ -248,7 +249,7 @@ def f_periodo_ventas(param_visita, m_bin_comb, v_prob_comb, v_prob_cant, param_v
     param_v_horas = [0.25, 0.5, 1]
     """
 
-    # Se simulan las ventas por personas, dependiendo de el numero de personas que visitaron y compraron (mes)
+    # Se simulan las ventas por personas, con el numero que visitaron y compraron (mes)
     v_periodo = [f_ventas_persona(m_bin_comb, v_prob_comb, v_prob_cant, param_v_precios,
                                   param_v_costos, param_v_horas) for i in range(param_visita)]
 
@@ -417,10 +418,18 @@ def f_DataFrames(n_sim, list_parameters_v, list_parameters_c, dataframe_n):
 
     datos1, datos2, datos3 = f_n_simulaciones_proceso(n_sim, list_parameters_v,
                                                       list_parameters_c)
-    # Donde datos 1: Visitantes, Compradores, Regresa, ingresos, costos, utilidad, horas, total productos
-    #                    0           1           2        3        4        5        6        7
-    # Y datos 2 contiene: acompanantes, costos de los banos, personas taller, costo taller, costos fijos, familias taller
-    #                         0               1                    2               3              4          5
+
+    # datos 1: Visitantes, Compradores, Regresa, ingresos, costos, utilidad,
+    #                   0            1        2         3       4         5
+    # horas, total productos
+    #     6,               7
+
+    # datos 2 : acompañantes, costos de los baños, personas taller, costo taller,
+    #                      0                    1                2             3
+
+    # costos fijos, familias taller
+    #            4,               5
+
     # datos 3 - len 3 y adentro numero de simulaciones : simulaciones v, c, r
 
     # - - - DataFrame para datos basicos

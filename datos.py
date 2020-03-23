@@ -29,8 +29,8 @@ publicidad_A = publicidad_mensual * ponderacio_A
 publicidad_B = publicidad_mensual * ponderacio_B
 
 # Costo por mil impresiones para anuncios en Facebook
-cpm_A = 200  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento A
-cpm_B = 250  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento B
+cpm_A = 150  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento A
+cpm_B = 100  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento B
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Mercado accesible por segmento - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -90,7 +90,7 @@ c_insumo_plantas = 1
 # Precio unitario de alimentos y bebidas
 v_comidas_p = [10, 30, 60]
 # Costo unitario de alimentos y bebidas
-v_comidas_c = [5, 15, 30]
+v_comidas_c = [5, 7.5, 20]
 # Horas unitarias invertidas por alimento o bebida vendido
 v_comidas_h = [0.10, 0.15, 0.2]
 
@@ -195,7 +195,7 @@ param_acomp_C = [1.5, 2.5, 0, 1]
 # Porcentaje del total de personas que visitarian que usarian los sanitarios
 porcentaje_bano = 0.20
 # Costo de insumos para bano por persona
-bano_insumo_c = 2
+bano_insumo_c = 1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Talleres - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -213,7 +213,7 @@ porcentaje_taller_C = 0.30
 # Costo de insumos para taller por asistente
 taller_insumo_c = 5
 # Costo de realizar taller (pago representativo a expositor)
-taller_fijo_c = 200
+taller_fijo_c = 100
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Costos Fijos - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -226,7 +226,7 @@ c_f_limpieza_general = 500
 c_f_limpieza_comida = 500
 c_f_wifi = 500
 c_f_energiaelectrica = 1000
-c_f_agua = 200
+c_f_agua = 300
 
 # Costo total fijo de todos los anteriores
 costo_total_fijo = np.array(
@@ -258,7 +258,7 @@ porcentaje_familias_ven_mural = 0.90
 # Consideraciones para simulacion de Metricas Financieras
 
 # Tasa de descuento
-tasa = 0.10
+tasa = 0.07
 
 # Inversion inicial
 inversion = 1000

@@ -220,3 +220,4 @@ mf_vpn, mf_tir = pr.f_metricas_financieras(utilidad_total, dat.inversion, dat.ta
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
+print(mf_vpn)

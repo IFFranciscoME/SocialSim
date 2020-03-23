@@ -136,6 +136,12 @@ param_beta_b = [
     [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.45, 0.30]]
     ]
 
+# Tendencia de visitantes
+tendencia_a = 0.25
+tendencia_b = 0.15
+tendencia_c = 0.05
+
+
 param_beta_c = [
     # Venden Plantas
     [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.35, 0.50]],

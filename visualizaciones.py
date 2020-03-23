@@ -7,9 +7,68 @@
 # .. Repositorio: https://github.com/                                                    .. #
 # .. ................................................................................... .. #
 
-import matplotlib.pyplot as plt
 import datos as dat
 import simulaciones as sim
+
+import plotly.graph_objs as go
+import plotly.io as pio
+pio.renderers.default = "browser"
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - VISUALIZACION: HISTOGRAMA - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para generar una grafica de histograma
+
+def g_histograma(param_val, param_colores, param_etiquetas):
+    """
+
+    Parameters
+    ----------
+    param_val :
+    param_colores :
+    param_etiquetas :
+
+    Returns
+    -------
+
+    Debugging
+    -------
+
+    """
+
+    # Inicializar un objeto tipo figura
+    fig = go.Figure()
+
+    # Agregar un trazo tipo histograma 1
+    fig.add_trace(go.Histogram(x=param_val, histnorm='probability',
+                               marker_color=param_colores['serie_1'],
+                               hovertemplate='<i>Probabilidad</i>: %{y} '
+                                             '<br><b> Rango de % de personas </b>: %{x} <br>'))
+
+    # Actualizar el layout de titulos y ejes
+    fig.update_layout(title=dict(x=0.5, text=param_etiquetas['titulo']),
+                      xaxis=dict(title_text=param_etiquetas['ejex']),
+                      yaxis=dict(title_text=param_etiquetas['ejey']),
+                      bargap=0.01)
+
+    # Al hacer hover o "mouse over" en las barras que se trunque a 2 decimales
+    # en los numeros y expersarlo en %
+    fig.update_yaxes(hoverformat='%.2f')
+    # Al hacer hover o "mouse over" en las barras que se trunque a 2 decimales en los numeros
+    fig.update_xaxes(hoverformat=".2f")
+    # Overlay both histograms
+    fig.update_layout(barmode='relative')
+    # Reduce opacity to see both histograms
+    fig.update_traces(opacity=0.5)
+    # mostrar plot
+    # fig.show()
+
+    return fig
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - VISUALIZACION: SERIES DE TIEMPO - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para generar una grafica de visualizaciones de N series de tiempo
 
 # Visualizar las distribuciones propuestas en los parametros para las simulaciones
 
@@ -40,15 +99,16 @@ pb = dat.param_beta_a
 param = pb[0][0]  # [1.5, 4, 0.05, 0.10]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
+sim_1 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-# Graficar
-plt.hist(simul, bins=100)
-plt.title('Porcentaje de personas que dan CLICK (Segmento A - Canal Facebook)')
-plt.xlabel('Porcentaje que dan click')
-plt.ylabel('Frecuencia')
-plt.show()
+
+colores_1 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+etiquetas_1 = {'titulo': '<b> Distribuciones de personas que hacen click </b>',
+               'ejex': '% de personas', 'ejey': 'probabilidad'}
+
+sim_1_fig = g_histograma(param_val=sim_1, param_colores=colores_1, param_etiquetas=etiquetas_1)
+
 
 '''
     La segunda simulacion es la que nos regresa el porcentaje de personas que
@@ -56,19 +116,17 @@ plt.show()
 '''
 
 # Distribucion de las visitas
-
 param = pb[0][1]  # [4, 2, 0.1, 0.15]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
+sim_2 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-# Graficar
-plt.hist(simul, bins=100)
-plt.title('Porcentaje de personas que VISITAN (Segmento A - Canal Facebook)')
-plt.xlabel('Porcentaje que visitan')
-plt.ylabel('Frecuencia')
-plt.show()
+colores_2 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+etiquetas_2 = {'titulo': '<b> Distribucion de personas que visitan </b>',
+               'ejex': '% de personas', 'ejey': 'probabilidad'}
+
+sim_2_fig = g_histograma(param_val=sim_2, param_colores=colores_2, param_etiquetas=etiquetas_2)
 
 '''
     La tercera simulacion regresa el porcentaje de personas que
@@ -76,19 +134,17 @@ plt.show()
 '''
 
 # Distribucion de los que regresan
-
 param = pb[0][2]  # [1, 2, 0.1, 0.25]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
+sim_3 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-# Graficar
-plt.hist(simul, bins=100)
-plt.title('Porcentaje de personas que REGRESAN (Segmento A - Canal Facebook)')
-plt.xlabel('Porcentaje que regresan')
-plt.ylabel('Frecuencia')
-plt.show()
+colores_3 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+etiquetas_3 = {'titulo': '<b> Distribucion de personas que regresan </b>',
+               'ejex': '% de personas', 'ejey': 'probabilidad'}
+
+sim_3_fig = g_histograma(param_val=sim_3, param_colores=colores_3, param_etiquetas=etiquetas_3)
 
 '''
     La cuarta y ultima simulacion de este canal (facebook) para el segemento A
@@ -99,12 +155,11 @@ plt.show()
 param = pb[0][3]  # [4.5, 1.5, 0.2, 0.55]
 
 # Simulaciones con esos parametros
-simul = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
+sim_4 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-# Graficar
-plt.hist(simul, bins=100)
-plt.title('Porcentaje de personas que COMPRAN (Segmento A - Canal Facebook)')
-plt.xlabel('Porcentaje que compran')
-plt.ylabel('Frecuencia')
-plt.show()
+colores_4 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+etiquetas_4 = {'titulo': '<b> Distribucion de personas que compran </b>',
+               'ejex': '% de personas', 'ejey': 'probabilidad'}
+
+sim_4_fig = g_histograma(param_val=sim_4, param_colores=colores_4, param_etiquetas=etiquetas_4)

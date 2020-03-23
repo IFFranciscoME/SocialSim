@@ -21,8 +21,10 @@ import pandas as pd
         Numero de productos que se venderian
         Parametros para la distribucion de las combinaciones'''
 
-m_bin_comb, v_prob_comb = sim.f_prob_combinaciones(dat.k_plantas, dat.param_comb)
+# Matriz de combinaciones y vector de probabilidad por combinacion para Plantas
+m_bin_comb_p, v_prob_comb_p = sim.f_prob_combinaciones(dat.k_plantas, dat.param_comb)
 
+# Matriz de combinaciones y vector de probabilidad por combinacion para Comidas
 m_bin_comb_c, v_prob_comb_c = sim.f_prob_combinaciones(dat.k_comidas, dat.param_comb)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -33,6 +35,7 @@ m_bin_comb_c, v_prob_comb_c = sim.f_prob_combinaciones(dat.k_comidas, dat.param_
         Distribucion que seguiria las diferentes cantidades
         Parametros para la distribucion de las cantidades'''
 
+# Vector de probabilidades de la cantidad de productos que se vendera
 v_prob_cant = sim.f_prob_cantidad(dat.k_max_prod, 'expon', dat.param_cant)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -43,13 +46,16 @@ v_prob_cant = sim.f_prob_cantidad(dat.k_max_prod, 'expon', dat.param_cant)
         Distribucion que seguiria las diferentes numero de acompanantes
         Parametros para la distribucion de los acompanantes'''
 
+# Acompanantes para segmento de clientes A
 param_v_sector_A_prob_acom = sim.f_prob_cantidad(dat.n_acomp_A, 'beta', dat.param_acomp_A)
+# Acompanantes para segmento de clientes B
 param_v_sector_B_prob_acom = sim.f_prob_cantidad(dat.n_acomp_B, 'beta', dat.param_acomp_B)
+# Acompanantes para segmento de clientes C
 param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.param_acomp_C)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Numero de periodos que se simulan
-t = 18
+t = 24
 # Numero de simulaciones
 n_sim = 10
 
@@ -68,31 +74,33 @@ n_sim = 10
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
+# Lista completa de parametros necesarios para calculos de ventas de plantas al segmento A
 param_a_v_p = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.k_plantas_porcentaje,
-               # Parametros de f_serie_tiempo_visitan
-               m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
+               m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
+
+# Lista completa de parametros necesarios para calculos de ventas de plantas al segmento B
 param_b_v_p = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.k_plantas_porcentaje,
-               # Parametros de f_serie_tiempo_visitan
-               m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
+               m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
+
+# Lista completa de parametros necesarios para calculos de ventas de plantas al segmento C
 param_c_v_p = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_plantas_porcentaje,
-               # Parametros de f_serie_tiempo_visitan
-               m_bin_comb, v_prob_comb, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
+               m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-
+# Lista completa de parametros necesarios para calculos de ventas de comidas al segmento A
 param_a_v_c = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.k_comidas_porcentaje,
-               # Parametros de f_serie_tiempo_visitan
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
+
+# Lista completa de parametros necesarios para calculos de ventas de comidas al segmento B
 param_b_v_c = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.k_comidas_porcentaje,
-               # Parametros de f_serie_tiempo_visitan
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
+
+# Lista completa de parametros necesarios para calculos de ventas de comidas al segmento C
 param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_comidas_porcentaje,
-               # Parametros de f_serie_tiempo_visitan
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 
@@ -110,9 +118,11 @@ param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_comida
 param_a_c = [param_v_sector_A_prob_acom, dat.min_acomp_A, dat.porcentaje_bano,
              dat.bano_insumo_c, dat.porcentaje_taller_A, dat.taller_insumo_c,
              dat.costo_total_fijo / 2]
+
 param_b_c = [param_v_sector_B_prob_acom, dat.min_acomp_B, dat.porcentaje_bano,
              dat.bano_insumo_c, dat.porcentaje_taller_B, dat.taller_insumo_c,
              dat.costo_total_fijo / 2]
+
 param_c_c = [param_v_sector_C_prob_acom, dat.min_acomp_C, dat.porcentaje_bano,
              dat.bano_insumo_c, dat.porcentaje_taller_C, dat.taller_insumo_c,
              dat.costo_total_fijo]
@@ -121,9 +131,9 @@ param_c_c = [param_v_sector_C_prob_acom, dat.min_acomp_C, dat.porcentaje_bano,
 # DataFrame por segementos
 
 df_a_plantas_flujo = pr.f_dataframes(n_sim, param_a_v_p, param_a_c, 'flujo')
-df_b_plantas_flujo = pr.f_dataframes(n_sim, param_b_v_p, param_b_c, 'flujo')
-
 df_a_comidas_flujo = pr.f_dataframes(n_sim, param_a_v_c, param_a_c, 'flujo')
+
+df_b_plantas_flujo = pr.f_dataframes(n_sim, param_b_v_p, param_b_c, 'flujo')
 df_b_comidas_flujo = pr.f_dataframes(n_sim, param_b_v_c, param_b_c, 'flujo')
 
 df_c = pr.f_dataframes(n_sim, param_c_v_p, param_c_c, 'personas c')

@@ -82,7 +82,7 @@ v_plantas_c = [7.5, 15, 37.5, 50]
 # Horas unitarias invertidas por planta vendido
 v_plantas_h = [0.5, 1, 1.5, 3]
 
-#
+# Porcentaje de personas que comprarian alguna planta
 k_plantas_porcentaje = 0.35
 # Costo unitario de insumos comunes contabilizado por planta (en pesos mexicanos)
 c_insumo_plantas = 1
@@ -94,7 +94,7 @@ v_comidas_c = [5, 7.5, 20]
 # Horas unitarias invertidas por alimento o bebida vendido
 v_comidas_h = [0.10, 0.15, 0.2]
 
-#
+# Porcentaje de personas que comprarian alguna comida o bebida
 k_comidas_porcentaje = 0.65
 # Costo unitario de insumos comunes contabilizado por alimento o bebida (en pesos mexicanos)
 c_insumo_comida = 5

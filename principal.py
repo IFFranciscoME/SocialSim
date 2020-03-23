@@ -10,9 +10,18 @@
 import procesos as pr
 import datos as dat
 import simulaciones as sim
+import visualizaciones as vs
 import numpy as np
 import pandas as pd
+from time import time
 
+t0 = time()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# Colores para graficas
+
+colores = dict(azul_f='#004A94', azul_b='#418FFB', gris_f='#6B6B6B',
+               gris_b='#ABABAB', verde_f='#42c29b', verde_b='#04CBCC')
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Funcion para matriz de combinaciones
@@ -57,7 +66,7 @@ param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.para
 # Numero de periodos que se simulan
 t = 24
 # Numero de simulaciones
-n_sim = 10
+n_sim = 100
 
 ''' Parametros de ventas
         Numero de periodos (meses) que se simularian
@@ -230,4 +239,23 @@ mf_vpn, mf_tir = pr.f_metricas_financieras(utilidad_total, dat.inversion, dat.ta
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
-print(mf_vpn)
+t1 = time()
+print(t1 - t0)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# Graficas
+
+colores_a = {'marker': colores['azul_f']}
+etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
+               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+
+fig_TIR = vs.g_histograma(param_val=mf_tir, param_colores=colores_a,
+                          param_etiquetas=etiquetas_a)
+
+colores_a = {'marker': colores['azul_b']}
+etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
+               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+
+fig_VPN = vs.g_histograma(param_val=mf_vpn, param_colores=colores_a,
+                          param_etiquetas=etiquetas_a)
+

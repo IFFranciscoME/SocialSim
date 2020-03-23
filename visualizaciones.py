@@ -24,15 +24,17 @@ def g_histograma(param_val, param_colores, param_etiquetas):
 
     Parameters
     ----------
-    param_val :
-    param_colores :
-    param_etiquetas :
+    param_val : np.array : valores para graficar el histograma
+    param_colores : colores en hexadecimal
+    param_etiquetas : etiquetas de ejes y titulo
 
     Returns
     -------
+    fig : plotly figure : el codigo del json que imprime la fitura con .show()
 
     Debugging
     -------
+
 
     """
 
@@ -41,8 +43,8 @@ def g_histograma(param_val, param_colores, param_etiquetas):
 
     # Agregar un trazo tipo histograma 1
     fig.add_trace(go.Histogram(x=param_val, histnorm='probability',
-                               marker_color=param_colores['serie_1'],
-                               hovertemplate='<i>Probabilidad</i>: %{y} '
+                               marker_color=param_colores['marker'],
+                               hovertemplate='<i> Probabilidad </i>: %{y} '
                                              '<br><b> Rango de % de personas </b>: %{x} <br>'))
 
     # Actualizar el layout de titulos y ejes
@@ -53,15 +55,13 @@ def g_histograma(param_val, param_colores, param_etiquetas):
 
     # Al hacer hover o "mouse over" en las barras que se trunque a 2 decimales
     # en los numeros y expersarlo en %
-    fig.update_yaxes(hoverformat='%.2f')
+    fig.update_yaxes(hoverformat='%.4f')
     # Al hacer hover o "mouse over" en las barras que se trunque a 2 decimales en los numeros
-    fig.update_xaxes(hoverformat=".2f")
+    fig.update_xaxes(hoverformat=".4f")
     # Overlay both histograms
     fig.update_layout(barmode='relative')
     # Reduce opacity to see both histograms
     fig.update_traces(opacity=0.5)
-    # mostrar plot
-    # fig.show()
 
     return fig
 
@@ -103,7 +103,7 @@ sim_1 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4
                       [param[2], param[3]])
 
 
-colores_1 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+colores_1 = {'marker': '#047CFB'}
 etiquetas_1 = {'titulo': '<b> Distribuciones de personas que hacen click </b>',
                'ejex': '% de personas', 'ejey': 'probabilidad'}
 
@@ -122,7 +122,7 @@ param = pb[0][1]  # [4, 2, 0.1, 0.15]
 sim_2 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-colores_2 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+colores_2 = {'marker': '#047CFB'}
 etiquetas_2 = {'titulo': '<b> Distribucion de personas que visitan </b>',
                'ejex': '% de personas', 'ejey': 'probabilidad'}
 
@@ -140,7 +140,7 @@ param = pb[0][2]  # [1, 2, 0.1, 0.25]
 sim_3 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-colores_3 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+colores_3 = {'marker': '#047CFB'}
 etiquetas_3 = {'titulo': '<b> Distribucion de personas que regresan </b>',
                'ejex': '% de personas', 'ejey': 'probabilidad'}
 
@@ -152,13 +152,13 @@ sim_3_fig = g_histograma(param_val=sim_3, param_colores=colores_3, param_etiquet
 '''
 
 # Distribucion de los que compran
-param = pb[0][3]  # [4.5, 1.5, 0.2, 0.55]
+param = pb[1][3]  # [4.5, 1.5, 0.2, 0.55]
 
 # Simulaciones con esos parametros
 sim_4 = sim.f_simular("beta", {'param1': param[0], 'param2': param[1]}, 10000, 4,
                       [param[2], param[3]])
 
-colores_4 = {'serie_1': '#047CFB', 'serie_2': '#42c29b', 'serie_3': '#6B6B6B'}
+colores_4 = {'marker': '#047CFB'}
 etiquetas_4 = {'titulo': '<b> Distribucion de personas que compran </b>',
                'ejex': '% de personas', 'ejey': 'probabilidad'}
 

@@ -56,7 +56,7 @@ def f_visitas_segmento(n_canales, param_beta, param_segmento, param_t_visitan):
     # Vector de simulaciones para cada canal
     v_porcentajes = [list(itertools.chain(*simulaciones[i])) for i in range(len(simulaciones))]
 
-    '''Multiplicacion de todos los porcentajes simulados, debido a que:
+    ''' Multiplicacion de todos los porcentajes simulados, debido a que:
         Antes del penultimo ES porcentante de visitas.
         El penultimo es el porcentaje de una visita anterior que regresa
         El ultimo es el porcentaje que compra
@@ -583,6 +583,6 @@ def f_metricas_financieras(utilidad, param_inversion, param_tasa, n_sim):
     flujo = pd.concat([inversion.T, utilidad]).reset_index(drop=True)
 
     vpn = [np.npv(param_tasa, flujo.iloc[:, i]) for i in range(n_sim)]
-    tir = [np.irr(flujo.iloc[:, i]) for i in range(n_sim)]
+    tir = [round(np.irr(flujo.iloc[:, i])*100, 2) for i in range(n_sim)]
 
     return vpn, tir

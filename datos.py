@@ -76,28 +76,28 @@ v_comidas_n = ["comida1", "comida2", "comida3"]
 # Precios de tales productos (en pesos mexicanos)
 
 # Precio unitario de plantas
-v_plantas_p = [15, 30, 75, 100]
+v_plantas_p = [35, 75, 90, 120]
 # Costo unitario de plantas
-v_plantas_c = [7.5, 15, 37.5, 50]
+v_plantas_c = [15, 25, 35, 40]
 # Horas unitarias invertidas por planta vendido
 v_plantas_h = [0.5, 1, 1.5, 3]
 
 # Porcentaje de personas que comprarian alguna planta
-k_plantas_porcentaje = 0.35
+k_plantas_porcentaje = 0.40
 # Costo unitario de insumos comunes contabilizado por planta (en pesos mexicanos)
 c_insumo_plantas = 1
 
 # Precio unitario de alimentos y bebidas
-v_comidas_p = [10, 30, 60]
+v_comidas_p = [30, 90, 150]
 # Costo unitario de alimentos y bebidas
-v_comidas_c = [5, 7.5, 20]
+v_comidas_c = [10, 25, 50]
 # Horas unitarias invertidas por alimento o bebida vendido
 v_comidas_h = [0.10, 0.15, 0.2]
 
 # Porcentaje de personas que comprarian alguna comida o bebida
-k_comidas_porcentaje = 0.65
+k_comidas_porcentaje = 0.60
 # Costo unitario de insumos comunes contabilizado por alimento o bebida (en pesos mexicanos)
-c_insumo_comida = 5
+c_insumo_comida = 2
 
 # Numero de productos totales
 k_plantas = len(v_plantas_n)
@@ -120,27 +120,27 @@ Ejemplo: [1.5, 4, 0.05, 0.07]. Donde:
 
 param_beta_a = [
     # Canal 1: Facebook
-    [[1.5, 4, 0.05, 0.10], [4, 2, 0.1, 0.15], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]],
+    [[1.5, 4, 0.05, 0.10], [4, 2, 0.1, 0.15], [1, 2, 0.20, 0.35], [4.5, 1.5, 0.35, 0.50]],
     # Canal 2: Iteso
-    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],
+    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.55, 0.65], [4.5, 1.5, 0.65, 0.70]],
     # Canal 3: Plaza tlajomulco
-    [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]
+    [[4, 2, 0.1, 0.2], [1, 2, 0.2, 0.5], [4.5, 1.5, 0.45, 0.65]]
     ]
 
 param_beta_b = [
     # Canal 1: Facebook
-    [[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.2, 0.55]],
+    [[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.25, 0.60]],
     # Canal 2: Iteso
-    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.03, 0.3], [4.5, 1.5, 0.35, 0.75]],
+    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.35, 0.65], [4.5, 1.5, 0.50, 0.50]],
     # Canal 3: Plaza tlajomulco
-    [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.2, 0.45]]
+    [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.45, 0.30]]
     ]
 
 param_beta_c = [
     # Venden Plantas
-    [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.2, 0.5]],
+    [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.35, 0.50]],
     # Venden Comida
-    [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.4, 0.7]]
+    [[4, 2, 0.2, 0.3], [1, 2, 0.5, 0.85], [4.5, 1.5, 0.50, 0.60]]
     ]
 
 # van a asambleas, muestran interes, hacen trabajo comunal
@@ -193,9 +193,9 @@ param_acomp_C = [1.5, 2.5, 0, 1]
 # - Simulacion de uso de sanitarios
 
 # Porcentaje del total de personas que visitarian que usarian los sanitarios
-porcentaje_bano = 0.20
+porcentaje_bano = 0.15
 # Costo de insumos para bano por persona
-bano_insumo_c = 1
+bano_insumo_c = 0.50
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Talleres - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -211,7 +211,7 @@ porcentaje_taller_C = 0.30
 
 # Costos de ofrecimiento por taller
 # Costo de insumos para taller por asistente
-taller_insumo_c = 5
+taller_insumo_c = 2.5
 # Costo de realizar taller (pago representativo a expositor)
 taller_fijo_c = 100
 
@@ -257,8 +257,8 @@ porcentaje_familias_ven_mural = 0.90
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Consideraciones para simulacion de Metricas Financieras
 
-# Tasa de descuento
-tasa = 0.07
+# Tasa de descuento mensual por que son periodos mensuales
+tasa = 0.07/12
 
 # Inversion inicial
-inversion = 1000
+inversion = 40000

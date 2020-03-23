@@ -258,4 +258,3 @@ etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
 
 fig_VPN = vs.g_histograma(param_val=mf_vpn, param_colores=colores_a,
                           param_etiquetas=etiquetas_a)
-

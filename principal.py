@@ -66,7 +66,7 @@ param_v_sector_C_prob_acom = sim.f_prob_cantidad(dat.n_acomp_C, 'beta', dat.para
 # Numero de periodos que se simulan
 t = 24
 # Numero de simulaciones
-n_sim = 100
+n_sim = 10
 
 ''' Parametros de ventas
         Numero de periodos (meses) que se simularian
@@ -84,32 +84,32 @@ n_sim = 100
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
 # Lista completa de parametros necesarios para calculos de ventas de plantas al segmento A
-param_a_v_p = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.k_plantas_porcentaje,
+param_a_v_p = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.tendencia_a, dat.k_plantas_porcentaje,
                m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de plantas al segmento B
-param_b_v_p = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.k_plantas_porcentaje,
+param_b_v_p = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.tendencia_b, dat.k_plantas_porcentaje,
                m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de plantas al segmento C
-param_c_v_p = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_plantas_porcentaje,
+param_c_v_p = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.tendencia_c, dat.k_plantas_porcentaje,
                m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de comidas al segmento A
-param_a_v_c = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.k_comidas_porcentaje,
+param_a_v_c = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.tendencia_a, dat.k_comidas_porcentaje,
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de comidas al segmento B
-param_b_v_c = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.k_comidas_porcentaje,
+param_b_v_c = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.tendencia_b, dat.k_comidas_porcentaje,
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de comidas al segmento C
-param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.k_comidas_porcentaje,
+param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.tendencia_c, dat.k_comidas_porcentaje,
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 

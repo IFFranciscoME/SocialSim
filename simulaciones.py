@@ -1,3 +1,4 @@
+
 # .. .................................................................................... .. #
 # .. Proyecto: SocialSim - Plataforma de simulacion de proyectos socioproductivos         .. #
 # .. Archivo: simulaciones.py - procesos de estadistica y simulacion                      .. #
@@ -10,6 +11,10 @@ import numpy as np
 import scipy.stats as st
 import itertools
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  FUNCION: Simular aleatorio - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para simular aleatorios con diferente distribucion de probabilidad
 
 def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
     """
@@ -34,7 +39,8 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
 
     if param_dist == "beta":  # -- Beta
         return (param_rango[0] + np.random.beta(a=param_pars['param1'], b=param_pars['param2'],
-                                               size=param_num) * (param_rango[1] - param_rango[0])).round(param_redondeo)
+                                                size=param_num) * (
+                            param_rango[1] - param_rango[0])).round(param_redondeo)
     elif param_dist == "normal":  # -- Normal
         return np.random.normal(loc=param_pars['param1'], scale=param_pars['param2'],
                                 size=param_num).round(param_redondeo)
@@ -50,7 +56,10 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
                                   size=param_num).round(param_redondeo)
 
 
-# Funcion que calcula la probabilidad siguiendo una distribucion dada discretisandola
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Discretizar funcion  - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion que calcula la probabilidad siguiendo una distribucion dada discretizandola
+
 def f_prob_discr(param_dist, param_pars_dist, param_num):
     """
     Parameters
@@ -69,18 +78,23 @@ def f_prob_discr(param_dist, param_pars_dist, param_num):
     param_pars = [1.5, 4]
     param_num = 16
     """
+
     dist = getattr(st, param_dist)
     x = np.linspace(0, 1, param_num + 1)
-    v_prob_acum = dist.cdf(x, *param_pars_dist[:-2], loc=param_pars_dist[-2], scale=param_pars_dist[-1])
+    v_prob_acum = dist.cdf(x, *param_pars_dist[:-2], loc=param_pars_dist[-2],
+                           scale=param_pars_dist[-1])
     v_prob = np.diff(v_prob_acum)
     if sum(v_prob) == 1:
         return v_prob_acum
     else:
-        #print('-')
+        # print('-')
         return v_prob_acum
 
 
-# Matriz de combinaciones
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Matriz combinaciones - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para generar una matriz de combinaciones
+
 def f_prob_combinaciones(param_n_product, param_par_dist_comb):
     """
     Parameters
@@ -117,13 +131,17 @@ def f_prob_combinaciones(param_n_product, param_par_dist_comb):
     return m_bin_comb, v_prob_comb
 
 
-# Funcion de vector de probabilidad
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Vector de probabilidad - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion de vector de probabilidad
+
 def f_prob_cantidad(param_n_max_product, param_dist, param_par_dist_cant):
     """
     Parameters
     ----------
     param_n_max_product : int :  numero maximo de productos que se venderian
-    param_par_dist_ventas: list : parametros de distribucion beta [a, b, loc, scale]
+    param_dist: list : parametros de distribucion beta [a, b, loc, scale]
+    param_par_dist_cant :
 
     Returns
     -------
@@ -133,6 +151,7 @@ def f_prob_cantidad(param_n_max_product, param_dist, param_par_dist_cant):
     -------
     param_n_max_product = 3
     param_par_dist_cant = [.8, 0.3, 0.5]
+
     """
 
     # Se propone distribucion beta para las combinaciones
@@ -147,17 +166,21 @@ def f_prob_cantidad(param_n_max_product, param_dist, param_par_dist_cant):
     return v_prob_cant
 
 
-def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Acompanantes por periodo - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para generar una matriz de combinaciones
+
+def f_acompanantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
     """
     Parameters
     ----------
-    param_vectorprob : list : vector con las probabilidades
+    param_v_sector_acom_prob : list : vector con las probabilidades
     param_seg: int : numero de asistentes por sector
     param_ajuste : int : numero de ajuste
-    
+
     Returns
     -------
-    v_cant_acom : list : cantidad de acompañantes por sector
+    v_cant_acom : list : cantidad de acompanantes por sector
 
     Debugging
     -------
@@ -174,13 +197,17 @@ def f_acompañantes_periodo(param_v_sector_acom_prob, param_seg, param_ajuste):
     return sum(v_cant_acom)
 
 
-def f_prob_binomial(param_porcent, param_seg, param_acompañante):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -  FUNCION: Probabilidad Binomial - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para generar aleatorios con dist probabilidad binominal
+
+def f_prob_binomial(param_porcent, param_seg, param_acompanante):
     """
     Parameters
     ----------
     param_porcent : float : porcentaje
     param_seg : int : numero de asistentes por sector A
-    param_acompañante : int: numero de acompañantes por sector A
+    param_acompanante : int: numero de acompanantes por sector A
 
     Returns
     -------
@@ -190,27 +217,34 @@ def f_prob_binomial(param_porcent, param_seg, param_acompañante):
     -------
     param_porcentaje = 0.5
     param_seg = 365
-    param_acompañante= 546
+    param_acompanante= 546
 
     """
 
-    personas = f_simular("binomial", {'param1': param_seg + param_acompañante, 'param2': param_porcent}, 1, 2, 0)
+    personas = f_simular("binomial",
+                         {'param1': param_seg + param_acompanante,
+                          'param2': param_porcent}, 1, 2, 0)
 
     return personas
 
 
-def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van, porcentaje_ven_mural):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Familias ven mural - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# - - Funcion para generar numero de familias que ven el mural
+
+def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van,
+                     porcentaje_ven_mural):
     """
     Parameters
     ----------
-    personas_asambleas : DataFrame : personas que van a la asamblea
+    personas_asamblea : DataFrame : personas que van a la asamblea
     n_familias_total : int : numero de familias total de la comunidad
     porcentaje_van : float : porcentaje de personas que van a la casa comunal
     porcentaje_ven_mural : float : porcentaje de los que ven el mural
-    
+
     Returns
     -------
-    familias_ven_mural : lis : cantidad de personas que usan el baño
+    familias_ven_mural : lis : cantidad de personas que usan el bano
 
     Debugging
     -------
@@ -221,14 +255,15 @@ def f_familias_mural(personas_asamblea, n_familias_total, porcentaje_van, porcen
 
     """
     familias_no_asamblea = n_familias_total - personas_asamblea
-    
-    familias_van_casa_com = [list(itertools.chain(*[f_prob_binomial(porcentaje_van, int(familias_no_asamblea.iloc[i,j]),
-                                                 0) for i in range(len(personas_asamblea))])) for j in range(len(personas_asamblea.columns))]
-    
-    familias_ven_mural = [list(itertools.chain(*[f_prob_binomial(porcentaje_ven_mural, familias_van_casa_com[j][i], 
-                                               0) for i in range(len(personas_asamblea))])) for j in range(len(personas_asamblea.columns))]
+
+    familias_van_casa_com = [list(
+        itertools.chain(*[f_prob_binomial(porcentaje_van, int(familias_no_asamblea.iloc[i, j]),
+                                          0) for i in range(len(personas_asamblea))])) for j in
+                             range(len(personas_asamblea.columns))]
+
+    familias_ven_mural = [list(
+        itertools.chain(*[f_prob_binomial(porcentaje_ven_mural, familias_van_casa_com[j][i],
+                                          0) for i in range(len(personas_asamblea))])) for j in
+                          range(len(personas_asamblea.columns))]
+
     return familias_ven_mural
-
-
-
-

@@ -45,7 +45,8 @@ def g_histograma(param_val, param_colores, param_etiquetas):
     fig.add_trace(go.Histogram(x=param_val, histnorm='probability',
                                marker_color=param_colores['marker'],
                                hovertemplate='<i> Probabilidad </i>: %{y} '
-                                             '<br><b> Rango de % de personas </b>: %{x} <br>'))
+                                             '<br><b> ' + param_etiquetas['ejex'] +
+                                             ' </b>: %{x} <br>'))
 
     # Actualizar el layout de titulos y ejes
     fig.update_layout(title=dict(x=0.5, text=param_etiquetas['titulo']),

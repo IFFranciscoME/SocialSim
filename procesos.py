@@ -23,10 +23,12 @@ import itertools
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # - - de personas que visitan por mes, te da una serie de tiempo de n periodos
     
-def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmento, param_tendencia):
+def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmento,
+                           param_tendencia):
     """
     Parameters
     ----------
+    param_tendencia : float : valor para agregar la tendencia
     param_n_periodos : int : numero de meses a simular
     n_canales : int : numero de canales
     param_beta : list : lista de listas de los parametros para la funcion de ventas por mes
@@ -42,16 +44,18 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
     param_beta = [[[1.5, 4, 0, 0.1], [4, 2, 0, 0.2], [1, 2, 0, 0.05], [4.5, 1.5, 0.2, 0.55]]]
     param_segmento = [10800]
     """
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Visitas Segmento - #
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FUNCION: Visitas Segmento - #
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
     # - - Funcion que da el numero de visitas y el numero de personas que compraron al mes
 
-    def f_visitas_segmento(n_canales, param_beta, param_segmento, param_t_visitan, x_tendencia):
+    def f_visitas_segmento(n_canales, param_beta, param_segmento, param_t_visitan,
+                           x_tendencia):
         """
         Parameters
         ----------
         n_canales : int : numero de canales por los cuales se quiere llegar al segmento
-        param_beta : list : matriz de 4x4 de los parametros de distribuciones beta [a, b, lim_inf,
+        param_beta : list : matriz de 4x4 de los parametros de
+                            distribuciones beta [a, b, lim_inf,
         lim_sup]
         param_segmento : list :  cantidad de personas del segmento alcanzables por cada canal
         param_t_visitan : list : personas que visitaron en t-1
@@ -77,7 +81,8 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
                          for i in range(len(param_beta[j]))] for j in range(len(param_beta))]
     
         # Vector de simulaciones para cada canal
-        v_porcentajes = [list(itertools.chain(*simulaciones[i])) for i in range(len(simulaciones))]
+        v_porcentajes = [list(itertools.chain(*simulaciones[i]))
+                         for i in range(len(simulaciones))]
     
         ''' Multiplicacion de todos los porcentajes simulados, debido a que:
             Antes del penultimo ES porcentante de visitas.
@@ -98,7 +103,8 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
         personas_regresan = [int(porcentaje_regresa[i] * param_t_visitan[i]) for i in
                              range(n_canales)]
         # Personas que visitan este periodo mas personas que regresan
-        personas_visitan_total = [int(x_tendencia) + int(personas_visitan[i] + personas_regresan[i]) for i in
+        personas_visitan_total = [int(x_tendencia) + int(personas_visitan[i] +
+                                                         personas_regresan[i]) for i in
                                   range(n_canales)]
         # Personas que compran por canal
         personas_compran = [int(personas_visitan_total[i] * porcentaje_compra[i]) for i in
@@ -106,7 +112,8 @@ def f_serie_tiempo_visitan(param_n_periodos, n_canales, param_beta, param_segmen
         # Personas totales que compran
         personas_compran_total = np.sum(personas_compran)
     
-        return personas_visitan_total, personas_compran_total, personas_regresan, personas_compran
+        return personas_visitan_total, personas_compran_total,\
+               personas_regresan, personas_compran
     
     # - - - - - - - - - - - - - - -
     # Ahora hacerlo para n periodos
@@ -272,6 +279,7 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento, para
     """
     Parameters
     ----------
+    param_tendencia : float : valor para la tendencia
     param_n_periodos : int : numero de meses a simular
     n_canales : int : numero de canales por segmento
     param_beta : list : lista de listas de los parametros para la funcion de ventas por mes
@@ -308,7 +316,8 @@ def f_ventas_total(param_n_periodos, n_canales, param_beta, param_segmento, para
 
     # Matriz que regresa las personas que van [vistan, compran, regresan] durante n_periodos
     m_visitan, m_visitan_canal = f_serie_tiempo_visitan(param_n_periodos, n_canales,
-                                                        param_beta, param_segmento, param_tendencia)
+                                                        param_beta, param_segmento,
+                                                        param_tendencia)
 
     # Matriz de ventas por persona y periodo
     m_ventas_totales_persona = [

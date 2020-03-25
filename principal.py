@@ -84,32 +84,38 @@ n_sim = 10
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
 # Lista completa de parametros necesarios para calculos de ventas de plantas al segmento A
-param_a_v_p = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.tendencia_a, dat.k_plantas_porcentaje,
+param_a_v_p = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.tendencia_a,
+               dat.k_plantas_porcentaje,
                m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de plantas al segmento B
-param_b_v_p = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.tendencia_b, dat.k_plantas_porcentaje,
+param_b_v_p = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.tendencia_b,
+               dat.k_plantas_porcentaje,
                m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de plantas al segmento C
-param_c_v_p = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.tendencia_c, dat.k_plantas_porcentaje,
+param_c_v_p = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.tendencia_c,
+               dat.k_plantas_porcentaje,
                m_bin_comb_p, v_prob_comb_p, v_prob_cant, dat.v_plantas_p, dat.v_plantas_c,
                dat.v_plantas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de comidas al segmento A
-param_a_v_c = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.tendencia_a, dat.k_comidas_porcentaje,
+param_a_v_c = [t, dat.n_canales_a, dat.param_beta_a, dat.p_total_A, dat.tendencia_a,
+               dat.k_comidas_porcentaje,
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de comidas al segmento B
-param_b_v_c = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.tendencia_b, dat.k_comidas_porcentaje,
+param_b_v_c = [t, dat.n_canales_b, dat.param_beta_b, dat.p_total_B, dat.tendencia_b,
+               dat.k_comidas_porcentaje,
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 
 # Lista completa de parametros necesarios para calculos de ventas de comidas al segmento C
-param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.tendencia_c, dat.k_comidas_porcentaje,
+param_c_v_c = [t, dat.n_canales_c, dat.param_beta_c, dat.p_total_C, dat.tendencia_c,
+               dat.k_comidas_porcentaje,
                m_bin_comb_c, v_prob_comb_c, v_prob_cant, dat.v_comidas_p, dat.v_comidas_c,
                dat.v_comidas_h]
 
@@ -246,47 +252,59 @@ mf_vpn, mf_tir = pr.f_metricas_financieras(utilidad_total, dat.inversion, dat.ta
 
 t1 = time()
 # print(t1 - t0)
-print('media de la TIR fue: ' + str(np.array(mf_tir).mean()))
+print('el tiempo transcurrido fue: ' + str(t1-t0))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Graficas: Sociales - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-# Generacion de graficas
+# Generacion de graficas (Histograma y Simulacion de series de tiempo)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ACTIVIDAD ECONOMICA - #
 
 colores_a = {'marker': colores['azul_f']}
 etiquetas_a = {'titulo': '<b> Valores simulados de ACTIVIDAD ECONOMICA </b>',
-               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+               'ejex': 'rango de valores métrica Actividad Económica', 'ejey': 'probabilidad'}
 
+# - - Histograma
 fig_actividad_econ = vs.g_histograma(param_val=ms_actividad_economica, param_colores=colores_a,
                                      param_etiquetas=etiquetas_a)
+
+# - - Simulaciones de Series de tiempo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - PARTICIPACION - #
 
 colores_a = {'marker': colores['azul_f']}
 etiquetas_a = {'titulo': '<b> Valores simulados de PARTICIPACION </b>',
-               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+               'ejex': 'rango de valores métrica: Participación', 'ejey': 'probabilidad'}
 
+# - - Histograma
 fig_participacion = vs.g_histograma(param_val=ms_participacion, param_colores=colores_a,
                                     param_etiquetas=etiquetas_a)
+
+# - - Simulaciones de Series de tiempo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  EDUCACION SOCIAL - #
 
 colores_a = {'marker': colores['azul_f']}
 etiquetas_a = {'titulo': '<b> Valores simulados de EDUCACION SOCIAL </b>',
-               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+               'ejex': 'rango de valores métrica: Educación Social', 'ejey': 'probabilidad'}
 
+# - - Histograma
 fig_educacion = vs.g_histograma(param_val=ms_educ_social, param_colores=colores_a,
                                 param_etiquetas=etiquetas_a)
+
+# - - Simulaciones de Series de tiempo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  COMUNICACION - #
 
 colores_a = {'marker': colores['azul_f']}
 etiquetas_a = {'titulo': '<b> Valores simulados de COMUNICACION </b>',
-               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+               'ejex': 'rango de valores métrica: Comunicación', 'ejey': 'probabilidad'}
 
+# - - Histograma
 fig_comunicacion = vs.g_histograma(param_val=ms_comunicacion, param_colores=colores_a,
                                    param_etiquetas=etiquetas_a)
+
+# - - Simulaciones de Series de tiempo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Graficas: Economicas - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -298,8 +316,11 @@ colores_a = {'marker': colores['azul_f']}
 etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
                'ejex': 'rango de valores', 'ejey': 'probabilidad'}
 
+# - - Histograma
 fig_TIR = vs.g_histograma(param_val=mf_tir, param_colores=colores_a,
                           param_etiquetas=etiquetas_a)
+
+# - - Simulaciones de Series de tiempo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - VPN - #
 
@@ -307,5 +328,8 @@ colores_a = {'marker': colores['azul_b']}
 etiquetas_a = {'titulo': '<b> Valores simulados de VPN </b>',
                'ejex': 'rango de valores', 'ejey': 'probabilidad'}
 
+# - - Histograma
 fig_VPN = vs.g_histograma(param_val=mf_vpn, param_colores=colores_a,
                           param_etiquetas=etiquetas_a)
+
+# - - Simulaciones de Series de tiempo

@@ -17,7 +17,7 @@ import numpy as np
 # segmento_C = 'c'
 
 # Presupuesto por mes
-publicidad_mensual = 600  # Dinero estimado destiando para publicidad
+publicidad_mensual = 500  # Dinero estimado destiando para publicidad
 
 # Presupuesto para cada segmento '%'
 ponderacio_A = 0.50  # Porcentaje que se le designará al segmento A
@@ -70,41 +70,41 @@ p_total_C = [segmento_C, segmento_C]
 # cantidad de tipos diferentes de productos que se venderian. Ej: 1) Plantas, 2) Comida
 k_n_productos = 2
 
-v_plantas_n = ["planta1", "planta2", "planta3", "planta4"]
-v_comidas_n = ["comida1", "comida2", "comida3"]
+v_plantas_n = ["planta1", "planta2", "planta3", "planta4", "planta5"]
+v_comidas_n = ["comida1", "comida2", "comida3", "comida4"]
 
 # Precios de tales productos (en pesos mexicanos)
 
 # Precio unitario de plantas
-v_plantas_p = [35, 75, 90, 120]
+v_plantas_p = [35, 75, 90, 95, 120]
 # Costo unitario de plantas
-v_plantas_c = [15, 25, 35, 40]
+v_plantas_c = [15, 25, 35, 35, 40]
 # Horas unitarias invertidas por planta vendido
-v_plantas_h = [0.5, 1, 1.5, 3]
+v_plantas_h = [0.5, 1, 1.5, 2, 3]
 
 # Porcentaje de personas que comprarian alguna planta
 k_plantas_porcentaje = 0.40
 # Costo unitario de insumos comunes contabilizado por planta (en pesos mexicanos)
-c_insumo_plantas = 1
+c_insumo_plantas = 2
 
 # Precio unitario de alimentos y bebidas
-v_comidas_p = [30, 90, 140]
+v_comidas_p = [10, 30, 90, 130]
 # Costo unitario de alimentos y bebidas
-v_comidas_c = [10, 35, 50]
+v_comidas_c = [5, 10, 35, 50]
 # Horas unitarias invertidas por alimento o bebida vendido
-v_comidas_h = [0.10, 0.15, 0.2]
+v_comidas_h = [0.10, 0.10, 0.15, 0.2]
 
 # Porcentaje de personas que comprarian alguna comida o bebida
 k_comidas_porcentaje = 0.60
 # Costo unitario de insumos comunes contabilizado por alimento o bebida (en pesos mexicanos)
-c_insumo_comida = 2.5
+c_insumo_comida = 3
 
 # Numero de productos totales
 k_plantas = len(v_plantas_n)
 k_comidas = len(v_comidas_n)
 
 # Maxima cantidad que se estaria dispuesto a comprar
-k_max_prod = 3
+k_max_prod = 4
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Parametros para simulaciones - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -120,25 +120,25 @@ Ejemplo: [1.5, 4, 0.05, 0.07]. Donde:
 
 param_beta_a = [
     # Canal 1: Facebook
-    [[1.5, 4, 0.05, 0.10], [4, 2, 0.10, 0.20], [1, 2, 0.20, 0.35], [4.5, 1.5, 0.35, 0.50]],
+    [[1.5, 4, 0.05, 0.10], [4, 2, 0.10, 0.20], [1, 2, 0.10, 0.35], [4.5, 1.5, 0.35, 0.50]],
     # Canal 2: Iteso
-    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.20, 0.35], [4.5, 1.5, 0.45, 0.50]],
+    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.10, 0.35], [4.5, 1.5, 0.45, 0.50]],
     # Canal 3: Plaza tlajomulco
-    [[4, 2, 0.1, 0.2], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.20, 0.60]]
+    [[4, 2, 0.1, 0.2], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.10, 0.60]]
     ]
 
 param_beta_b = [
     # Canal 1: Facebook
-    [[1.5, 4, 0.05, 0.07], [4, 2, 0.10, 0.18], [1, 2, 0.15, 0.25], [4.5, 1.5, 0.25, 0.60]],
+    [[1.5, 4, 0.05, 0.07], [4, 2, 0.10, 0.18], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.25, 0.60]],
     # Canal 2: Iteso
-    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.25, 0.45], [4.5, 1.5, 0.50, 0.50]],
+    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.10, 0.35], [4.5, 1.5, 0.50, 0.50]],
     # Canal 3: Plaza tlajomulco
-    [[4, 2, 0.1, 0.2], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.35, 0.30]]
+    [[4, 2, 0.1, 0.2], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.10, 0.35]]
     ]
 
 # Tendencia de crecimiento de visitantes
-tendencia_a = 0.30
-tendencia_b = 0.20
+tendencia_a = 0.10
+tendencia_b = 0.10
 tendencia_c = 0.10
 
 
@@ -199,9 +199,9 @@ param_acomp_C = [1.5, 2.5, 0, 1]
 # - Simulacion de uso de sanitarios
 
 # Porcentaje del total de personas que visitarian que usarian los sanitarios
-porcentaje_bano = 0.15
+porcentaje_bano = 0.20
 # Costo de insumos para bano por persona
-bano_insumo_c = 1
+bano_insumo_c = 1.5
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Talleres - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -227,11 +227,11 @@ taller_fijo_c = 100
 
 # Los siguientes egresos son mensuales
 c_f_limpieza_estacionamiento = 200
-c_f_limpieza_banos = 500
-c_f_limpieza_general = 500
+c_f_limpieza_banos = 750
+c_f_limpieza_general = 750
 c_f_limpieza_comida = 500
 c_f_wifi = 500
-c_f_energiaelectrica = 1000
+c_f_energiaelectrica = 1100
 c_f_agua = 300
 
 # Costo total fijo de todos los anteriores

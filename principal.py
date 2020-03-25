@@ -218,28 +218,24 @@ ven_mural = pd.DataFrame(sim.f_familias_mural(asamblea_total, dat.total_familias
 
 # 1. Actividad Economica: Horas trabajadas * salario por hora
 ms_actividad_economica = horas_total * dat.salario_hora
+# Obtener la metrica 1: Actividad economica
+# np.array(ms_actividad_economica).mean()
 
 # 2. Participacion: Horas de plantas + Horas de comidas + Horas de asambleas
 ms_participacion = asamblea_total * dat.horas_asamblea_fam + horas_total
+# Obtener la metrica 2: Participacion
+# np.array(ms_participacion).mean()
 
 # 3. Educacion Social: Familias asistentes a talleres / total de Familias
 ms_educ_social = taller_total / dat.total_familias
+# Obtener la metrica 3: Educacion Social
+# np.array(ms_educ_social).mean()
 
 # 4. Comunicacion: Familias asistentes asambleas +
 # Familias ven el periodico mural que no fueron a la asamblea
 ms_comunicacion = asamblea_total + ven_mural
-
-# Obtener la metrica 1: Actividad economica
-np.array(ms_actividad_economica).mean()
-
-# Obtener la metrica 2: Participacion
-np.array(ms_participacion).mean()
-
-# Obtener la metrica 3: Educacion Social
-np.array(ms_educ_social).mean()
-
 # Obtener la metrica 4: Comunicacion
-np.array(ms_comunicacion).mean()
+# np.array(ms_comunicacion).mean()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Metricas Financieras
@@ -250,10 +246,53 @@ mf_vpn, mf_tir = pr.f_metricas_financieras(utilidad_total, dat.inversion, dat.ta
 
 t1 = time()
 # print(t1 - t0)
-print('media del vpn fue: ' + str(np.array(mf_vpn).mean()))
+print('media de la TIR fue: ' + str(np.array(mf_tir).mean()))
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Graficas: Sociales - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
-# Graficas
+# Generacion de graficas
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ACTIVIDAD ECONOMICA - #
+
+colores_a = {'marker': colores['azul_f']}
+etiquetas_a = {'titulo': '<b> Valores simulados de ACTIVIDAD ECONOMICA </b>',
+               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+
+fig_actividad_econ = vs.g_histograma(param_val=ms_actividad_economica, param_colores=colores_a,
+                                     param_etiquetas=etiquetas_a)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - PARTICIPACION - #
+
+colores_a = {'marker': colores['azul_f']}
+etiquetas_a = {'titulo': '<b> Valores simulados de PARTICIPACION </b>',
+               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+
+fig_participacion = vs.g_histograma(param_val=ms_participacion, param_colores=colores_a,
+                                    param_etiquetas=etiquetas_a)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  EDUCACION SOCIAL - #
+
+colores_a = {'marker': colores['azul_f']}
+etiquetas_a = {'titulo': '<b> Valores simulados de EDUCACION SOCIAL </b>',
+               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+
+fig_educacion = vs.g_histograma(param_val=ms_educ_social, param_colores=colores_a,
+                                param_etiquetas=etiquetas_a)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  COMUNICACION - #
+
+colores_a = {'marker': colores['azul_f']}
+etiquetas_a = {'titulo': '<b> Valores simulados de COMUNICACION </b>',
+               'ejex': 'rango de valores', 'ejey': 'probabilidad'}
+
+fig_comunicacion = vs.g_histograma(param_val=ms_comunicacion, param_colores=colores_a,
+                                   param_etiquetas=etiquetas_a)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Graficas: Economicas - #
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+# Generacion de graficas
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - TIR - #
 
 colores_a = {'marker': colores['azul_f']}
 etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
@@ -262,8 +301,10 @@ etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
 fig_TIR = vs.g_histograma(param_val=mf_tir, param_colores=colores_a,
                           param_etiquetas=etiquetas_a)
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - VPN - #
+
 colores_a = {'marker': colores['azul_b']}
-etiquetas_a = {'titulo': '<b> Valores simulados de TIR </b>',
+etiquetas_a = {'titulo': '<b> Valores simulados de VPN </b>',
                'ejex': 'rango de valores', 'ejey': 'probabilidad'}
 
 fig_VPN = vs.g_histograma(param_val=mf_vpn, param_colores=colores_a,

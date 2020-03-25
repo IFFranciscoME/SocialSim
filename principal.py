@@ -229,18 +229,28 @@ ms_educ_social = taller_total / dat.total_familias
 # Familias ven el periodico mural que no fueron a la asamblea
 ms_comunicacion = asamblea_total + ven_mural
 
+# Obtener la metrica 1: Actividad economica
+np.array(ms_actividad_economica).mean()
+
+# Obtener la metrica 2: Participacion
+np.array(ms_participacion).mean()
+
+# Obtener la metrica 3: Educacion Social
+np.array(ms_educ_social).mean()
+
+# Obtener la metrica 4: Comunicacion
+np.array(ms_comunicacion).mean()
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Metricas Financieras
-
-# VPN
-# TIR
 
 mf_vpn, mf_tir = pr.f_metricas_financieras(utilidad_total, dat.inversion, dat.tasa, n_sim)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 
 t1 = time()
-print(t1 - t0)
+# print(t1 - t0)
+print('media del vpn fue: ' + str(np.array(mf_vpn).mean()))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
 # Graficas

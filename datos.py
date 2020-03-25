@@ -17,11 +17,11 @@ import numpy as np
 # segmento_C = 'c'
 
 # Presupuesto por mes
-publicidad_mensual = 500  # Dinero estimado destiando para publicidad
+publicidad_mensual = 600  # Dinero estimado destiando para publicidad
 
 # Presupuesto para cada segmento '%'
-ponderacio_A = 0.75  # Porcentaje que se le designará al segmento A
-ponderacio_B = 0.25  # Porcentaje que se le designará al segmento B
+ponderacio_A = 0.50  # Porcentaje que se le designará al segmento A
+ponderacio_B = 0.50  # Porcentaje que se le designará al segmento B
 # Deben de sumar 1 las ponderaciones por segmento (100%)
 
 # Presupuesto para cada segmento '$'
@@ -29,7 +29,7 @@ publicidad_A = publicidad_mensual * ponderacio_A
 publicidad_B = publicidad_mensual * ponderacio_B
 
 # Costo por mil impresiones para anuncios en Facebook
-cpm_A = 150  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento A
+cpm_A = 100  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento A
 cpm_B = 100  # Costo Por Mil impresiones de anuncio: Para anunciarse al segmento B
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Mercado accesible por segmento - #
@@ -57,7 +57,7 @@ p_canal_plaza_A = 200
 p_canal_plaza_B = 100
 
 # Cantidad de familias de la CIT, obtenida con el CENSO
-segmento_C = 54
+segmento_C = 214
 
 # Distribucion de prospectos por segmento por canal
 p_total_A = [p_canal_facebook_A, p_canal_iteso_A, p_canal_plaza_A]
@@ -88,16 +88,16 @@ k_plantas_porcentaje = 0.40
 c_insumo_plantas = 1
 
 # Precio unitario de alimentos y bebidas
-v_comidas_p = [30, 90, 150]
+v_comidas_p = [30, 90, 140]
 # Costo unitario de alimentos y bebidas
-v_comidas_c = [10, 25, 50]
+v_comidas_c = [10, 35, 50]
 # Horas unitarias invertidas por alimento o bebida vendido
 v_comidas_h = [0.10, 0.15, 0.2]
 
 # Porcentaje de personas que comprarian alguna comida o bebida
 k_comidas_porcentaje = 0.60
 # Costo unitario de insumos comunes contabilizado por alimento o bebida (en pesos mexicanos)
-c_insumo_comida = 2
+c_insumo_comida = 2.5
 
 # Numero de productos totales
 k_plantas = len(v_plantas_n)
@@ -120,26 +120,26 @@ Ejemplo: [1.5, 4, 0.05, 0.07]. Donde:
 
 param_beta_a = [
     # Canal 1: Facebook
-    [[1.5, 4, 0.05, 0.10], [4, 2, 0.1, 0.15], [1, 2, 0.20, 0.35], [4.5, 1.5, 0.35, 0.50]],
+    [[1.5, 4, 0.05, 0.10], [4, 2, 0.10, 0.20], [1, 2, 0.20, 0.35], [4.5, 1.5, 0.35, 0.50]],
     # Canal 2: Iteso
-    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.55, 0.65], [4.5, 1.5, 0.65, 0.70]],
+    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.20, 0.35], [4.5, 1.5, 0.45, 0.50]],
     # Canal 3: Plaza tlajomulco
-    [[4, 2, 0.1, 0.2], [1, 2, 0.2, 0.5], [4.5, 1.5, 0.45, 0.65]]
+    [[4, 2, 0.1, 0.2], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.20, 0.60]]
     ]
 
 param_beta_b = [
     # Canal 1: Facebook
-    [[1.5, 4, 0.05, 0.07], [4, 2, 0.1, 0.18], [1, 2, 0.1, 0.25], [4.5, 1.5, 0.25, 0.60]],
+    [[1.5, 4, 0.05, 0.07], [4, 2, 0.10, 0.18], [1, 2, 0.15, 0.25], [4.5, 1.5, 0.25, 0.60]],
     # Canal 2: Iteso
-    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.35, 0.65], [4.5, 1.5, 0.50, 0.50]],
+    [[1.5, 4, 0.05, 0.5], [4, 2, 0.05, 0.15], [1, 2, 0.25, 0.45], [4.5, 1.5, 0.50, 0.50]],
     # Canal 3: Plaza tlajomulco
-    [[4, 2, 0.1, 0.2], [1, 2, 0.1, 0.5], [4.5, 1.5, 0.45, 0.30]]
+    [[4, 2, 0.1, 0.2], [1, 2, 0.10, 0.25], [4.5, 1.5, 0.35, 0.30]]
     ]
 
-# Tendencia de visitantes
-tendencia_a = 0.25
-tendencia_b = 0.15
-tendencia_c = 0.05
+# Tendencia de crecimiento de visitantes
+tendencia_a = 0.30
+tendencia_b = 0.20
+tendencia_c = 0.10
 
 
 param_beta_c = [
@@ -201,7 +201,7 @@ param_acomp_C = [1.5, 2.5, 0, 1]
 # Porcentaje del total de personas que visitarian que usarian los sanitarios
 porcentaje_bano = 0.15
 # Costo de insumos para bano por persona
-bano_insumo_c = 0.50
+bano_insumo_c = 1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  Talleres - #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -217,7 +217,7 @@ porcentaje_taller_C = 0.30
 
 # Costos de ofrecimiento por taller
 # Costo de insumos para taller por asistente
-taller_insumo_c = 2.5
+taller_insumo_c = 5
 # Costo de realizar taller (pago representativo a expositor)
 taller_fijo_c = 100
 
@@ -226,7 +226,7 @@ taller_fijo_c = 100
 # - Parametros para los Costos Fijos
 
 # Los siguientes egresos son mensuales
-c_f_limpieza_estacionamiento = 100
+c_f_limpieza_estacionamiento = 200
 c_f_limpieza_banos = 500
 c_f_limpieza_general = 500
 c_f_limpieza_comida = 500
@@ -264,7 +264,7 @@ porcentaje_familias_ven_mural = 0.90
 # Consideraciones para simulacion de Metricas Financieras
 
 # Tasa de descuento mensual por que son periodos mensuales
-tasa = 0.07/12
+tasa = 0.10/12
 
 # Inversion inicial
 inversion = 40000

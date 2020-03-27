@@ -60,9 +60,9 @@ def g_histograma(param_val, param_colores, param_etiquetas):
     # Al hacer hover o "mouse over" en las barras que se trunque a 2 decimales en los numeros
     fig.update_xaxes(hoverformat=".4f")
     # Overlay both histograms
-    fig.update_layout(barmode='relative')
+    fig.update_layout(barmode='relative', yaxis_tickformat='%')
     # Reduce opacity to see both histograms
-    fig.update_traces(opacity=0.5)
+    fig.update_traces(opacity=0.80)
 
     return fig
 

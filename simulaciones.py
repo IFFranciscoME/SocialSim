@@ -52,7 +52,9 @@ def f_simular(param_dist, param_pars, param_num, param_redondeo, param_rango):
         return np.random.uniform(low=param_pars['param1'], high=param_pars['param2'],
                                  size=param_num)
     elif param_dist == "binomial":  # -- Binomial
-        return np.random.binomial(n=param_pars['param1'], p=param_pars['param2'],
+        # llega a haber situaciones donde param_pars['param1'] < 0
+        parchesote = abs(param_pars['param1'])
+        return np.random.binomial(n=parchesote, p=param_pars['param2'],
                                   size=param_num).round(param_redondeo)
 
 
@@ -220,7 +222,7 @@ def f_prob_binomial(param_porcent, param_seg, param_acompanante):
     param_acompanante= 546
 
     """
-
+    # print('utilizado f_prob_binomial')
     personas = f_simular("binomial",
                          {'param1': param_seg + param_acompanante,
                           'param2': param_porcent}, 1, 2, 0)
